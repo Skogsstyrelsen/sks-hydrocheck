@@ -1,0 +1,18 @@
+[book]
+authors = ["Skogsstyrelsen"]
+language = "sv"
+multilingual = false
+src = "src"
+title = "GIS-verktyg för att bedöma påverkan på vattenmiljöer vid skogsbruksåtgärder"
+
+[build]
+build-dir = "../docs"
+create-missing = false
+
+[output.html.print]
+enable = true    # include support for printable output
+page-break = true # insert page-break after each chapter
+
+[preprocessor.graphviz]
+command = "mdbook-graphviz"
+output-to-file = false # defaults to false, change to true to create SVG files instead of rendering them inline

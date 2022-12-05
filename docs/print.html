@@ -1,0 +1,729 @@
+<!DOCTYPE HTML>
+<html lang="sv" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>GIS-verktyg för att bedöma påverkan på vattenmiljöer vid skogsbruksåtgärder</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduktion</a></li><li class="chapter-item expanded "><a href="input.html"><strong aria-hidden="true">2.</strong> Indata</a></li><li class="chapter-item expanded "><a href="method/method_overview.html"><strong aria-hidden="true">3.</strong> Metodöversikt</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="method/prepare_hydrologial_dem.html"><strong aria-hidden="true">3.1.</strong> Förberedelser av hydrologisk höjdmodell</a></li><li class="chapter-item expanded "><a href="method/calculate_regional_hydrology.html"><strong aria-hidden="true">3.2.</strong> Beräkna regionala hydrologiska egenskaper</a></li><li class="chapter-item expanded "><a href="method/zonal_statistics.html"><strong aria-hidden="true">3.3.</strong> Beräkna zonstatistik inom varje påverkande område</a></li><li class="chapter-item expanded "><a href="method/calculate_flowpaths.html"><strong aria-hidden="true">3.4.</strong> Beräkna rinnvägar från påverkande område</a></li></ol></li><li class="chapter-item expanded "><a href="output/output_overview.html"><strong aria-hidden="true">4.</strong> Utdata</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="output/areas/areas_overview.html"><strong aria-hidden="true">4.1.</strong> Ärendeområden</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="output/areas/runoff_to_prio.html"><strong aria-hidden="true">4.1.1.</strong> Avrinning till prioriterat vatten (PV)</a></li><li class="chapter-item expanded "><a href="output/areas/shortest_flowpath.html"><strong aria-hidden="true">4.1.2.</strong> Kortaste rinnsträcka till PV / icke-PV</a></li><li class="chapter-item expanded "><a href="output/areas/mf_summarize.html"><strong aria-hidden="true">4.1.3.</strong> Arealer och andelar av markfuktighetsklasser inom ärendeområden</a></li><li class="chapter-item expanded "><a href="output/areas/wet_near_streams.html"><strong aria-hidden="true">4.1.4.</strong> Blöt yta nära vattendrag</a></li></ol></li><li class="chapter-item expanded "><a href="output/flowpaths/flowpaths_overview.html"><strong aria-hidden="true">4.2.</strong> Rinnvägar</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="output/flowpaths/segmentation_attribution.html"><strong aria-hidden="true">4.2.1.</strong> Segmentindelning, avrinningsområde och recipient</a></li><li class="chapter-item expanded "><a href="output/flowpaths/sediment_transport.html"><strong aria-hidden="true">4.2.2.</strong> Sedimenttransport</a></li><li class="chapter-item expanded "><a href="output/flowpaths/slope.html"><strong aria-hidden="true">4.2.3.</strong> Lutning</a></li><li class="chapter-item expanded "><a href="output/flowpaths/flowaccumulation.html"><strong aria-hidden="true">4.2.4.</strong> Flödesackumulering</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementering</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GIS-verktyg för att bedöma påverkan på vattenmiljöer vid skogsbruksåtgärder</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduktion"><a class="header" href="#introduktion">Introduktion</a></h1>
+<p>Det här dokumentet beskriver ett verktyg som tagits fram inom projektet Grip on
+Life och som ska utgöra verksamhetsstöd i Skogsstyrelsens handläggning av
+avverkningsärenden inom och i anslutning till prioritierade vattendrag som kan
+omfattas av t.ex. Natura 2000.</p>
+<p>Grundläggande är att verktyget ska ge ökad förståelse för hur vatten rör sig i
+landskapet och pekar ut ärenden/områden där det finns förhöjd risk för negativ
+påverkan av vattenkvalitet. Detta är egenskaper som är värdefulla i många av
+Skogsstyrelsens olika verksamheter och uppdrag.</p>
+<p>Den uppenbara nyttan med verktyget är att använda det i Skogsstyrelsens
+tillsynsverksamhet. Dels för att förfina den automatiska analys som görs av
+ärenden men även tillhandahålla ett bättre visuellt underlag i de ärenden som
+handläggs manuellt. Ett tydligt visuellt underlag underlättar samverkan med
+andra myndigheter och skogliga aktörer.</p>
+<h2 id="bakgrund"><a class="header" href="#bakgrund">Bakgrund</a></h2>
+<h3 id="påverkan-av-vattenmiljöer-vid-skogsbruksåtgärder"><a class="header" href="#påverkan-av-vattenmiljöer-vid-skogsbruksåtgärder">Påverkan av vattenmiljöer vid skogsbruksåtgärder</a></h3>
+<p>En betydande risk för negativ påverkan på vattendrag vid avverkning är
+<a href="https://www.skogsstyrelsen.se/bruka-skog/skogsskador/korskador/">körskador</a>
+orsakade av skogsmaskiner som kan frigöra slam, humus, näring och tungmetaller
+som rinner ut i känsliga vattendrag. Områdets egenskaper som t.ex. jordart,
+markfuktighet och lutning är exempel på faktorer som avgör hur stor risken är.</p>
+<h3 id="skogsstyrelsens-befintliga-handläggarstöd"><a class="header" href="#skogsstyrelsens-befintliga-handläggarstöd">Skogsstyrelsens befintliga handläggarstöd</a></h3>
+<p>Idag identifieras risken för negativ påverkan på känsliga vattendrag av
+Skogsstyrelsens <em>analysmodul</em>. Avverkningsanmälningar faller ut i analysen
+om området överlappar en buffertzon för <em>särskilt värdefulla vatten</em>, d.v.s. en
+enkel överlagringsanalys. För att i högre grad kunna klassificera
+de hydrologiska riskerna automatiskt, och därmed avlasta den manuella
+handläggningen, uppstår ett behov av ett verktyg som kan beskriva de
+hydrologiska faktorerna mer noggrant.</p>
+<p><img src="img/buffert_vs_hydro.jpg" alt="" />
+<em>Figur 1.A. Med en enkel buffertzon kan ärendeområden som ligger i närheten av
+känsliga vattendrag hittas, men den reella risken kan bero på faktorer som inte
+fångas. I det här exemplet kan en hydrologisk modell beräkna att ett vattendrag
+som passerar området rinner via en vägtrumma ner mot recipienten. Bakgrundsbild
+skapad utifrån Markhöjdmodell Nedladdning, grid 1+, Topografisk webbkarta
+Visning, skiktindelad och Ortofoto färg, 0.5 m © Lantmäteriet.</em></p>
+<h2 id="vad-kan-verktyget-göra"><a class="header" href="#vad-kan-verktyget-göra">Vad kan verktyget göra?</a></h2>
+<p>Verktyget utför hydrologisk analys och överlagringsanalys för att ta fram
+följande produkter:</p>
+<ul>
+<li>Hydrologisk information kopplat till <strong>avverkningsärendeområde</strong>
+<ul>
+<li>Konnektivitet med prioriterade vattendrag (recipient)</li>
+<li>Kortaste rinnsträcka till recipient(er)</li>
+<li>Blöt mark nära genomströmmande vattendrag</li>
+<li>Maximal flödesackumulering</li>
+<li>Fördelning av markfuktighetsklasser</li>
+<li>Sammanställning av hydrologiska egenskaper för nedströms rinnvägar</li>
+</ul>
+</li>
+<li>Hydrologiska egenskaper för nedströms <strong>rinnvägar</strong>, från avverkningsområde till recipient
+<ul>
+<li>Konnektivitet med prioriterade vattendrag</li>
+<li>Genomsnittligt sedimenttransportindex längs rinnvägssegment</li>
+<li>Genomsnittlig lutning längs rinnvägssegment</li>
+<li>Genomsnittlig flödesackumulering  längs rinnvägssegment</li>
+</ul>
+</li>
+</ul>
+<p>En mer detaljerad beskrivning av de beräknade egenskaperna ovan beskrivs i avsnittet <a href="./output/output_overview.html">Utdata</a>.</p>
+<p><img src="./img/products.jpg" alt="" />
+<em>Figur 1.B. Exempel på visualisering av bl.a. rinnvägar med flödesackumulering,
+längd på rinnsträckor från avverkningsområde till recipient samt fördelning av
+markfuktighetsklasser. Resultat skapat utifrån SLU Markfuktighetskarta och
+Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet. Bakgrundsbild: Topografisk
+webbkarta Visning, skiktindelad och Ortofoto färg, 0.5 m © Lantmäteriet.</em></p>
+<p><img src="./img/products2.jpg" alt="" /> <em>Figur 1.C. Exempel på visning av hydrologisk
+information kopplat till avverkningsområde samt symbolisering av
+sedimenttransportindex längs rinnvägar. Resultat skapat utifrån SLU
+Markfuktighetskarta och Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet.
+Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad och Ortofoto färg,
+0.5 m © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="indata"><a class="header" href="#indata">Indata</a></h1>
+<p>Nedan presenteras indata som används i modellen. De specificerade produkterna är
+de som använts vid utveckling av verkytget men andra underlag med motsvarande
+egenskaper kan användas. Några indata är obligatoriska för att köra modellen
+medan övriga är frivilliga men rekommenderade för att erhålla ett bra resultat.</p>
+<div class="table-wrapper"><table><thead><tr><th>Data</th><th>Typ</th><th style="text-align: left">Krav</th><th>Produkt</th></tr></thead><tbody>
+<tr><td>Höjdmodell (terrängmodell)</td><td>Raster, GeoTIFF</td><td style="text-align: left">Ja</td><td>Lantmäteriets Markhöjdmodell Nedladdning, grid 1+ <sup class="footnote-reference"><a href="#1">1</a></sup></td></tr>
+<tr><td>Diken</td><td>Vektor, linjer</td><td style="text-align: left">Nej</td><td>SLU Dikeskartor <sup class="footnote-reference"><a href="#2">2</a></sup></td></tr>
+<tr><td>Vattendrag</td><td>Vektor, linjer</td><td style="text-align: left">Nej</td><td>Lantmäteriets Terrängkartan <sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
+<tr><td>Vägar + järnvägar</td><td>Vektor, linjer</td><td style="text-align: left">Nej</td><td>Lantmäteriets Terrängkartan <sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
+<tr><td>Väg-/järnvägstrummor</td><td>Vektor, punkter</td><td style="text-align: left">Nej</td><td>Trafikverkets datapaket Vägtrummor punkter geografisk vy <sup class="footnote-reference"><a href="#4">4</a></sup></td></tr>
+<tr><td>Recipienter med prioklasser</td><td>Vektor, polygoner</td><td style="text-align: left">Ja</td><td>Klassade<sup class="footnote-reference"><a href="#5">5</a></sup> vattenförekomster (ytor) från Terrängkartan <sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
+<tr><td>Avverkningsanmälansområden</td><td>Vektor, polygoner</td><td style="text-align: left">Ja</td><td>Ytor kopplade till avverkningsanmälningar från Skogsstyrelsen</td></tr>
+<tr><td>Markfuktighetskarta</td><td>Raster, GeoTIFF</td><td style="text-align: left">Ja</td><td>SLU Markfuktighetskarta <sup class="footnote-reference"><a href="#6">6</a></sup></td></tr>
+</tbody></table>
+</div>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/mhm1_plus.pdf">https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/hojddata/mhm1_plus.pdf</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://www.slu.se/institutioner/skogens-ekologi-skotsel/forskning2/dikeskartor/">https://www.slu.se/institutioner/skogens-ekologi-skotsel/forskning2/dikeskartor/</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://www.lantmateriet.se/sv/geodata/vara-produkter/produktlista/terrangkartan/">https://www.lantmateriet.se/sv/geodata/vara-produkter/produktlista/terrangkartan/</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://lastkajen.trafikverket.se/productpackages/10170">https://lastkajen.trafikverket.se/productpackages/10170</a> [kräver inloggning]</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>Klassning (prio/ej prio) görs med hjälp av annat underlag som anses representera recipienter som kräver extra hänsyn</p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">6</sup>
+<p><a href="https://www.slu.se/institutioner/skogens-ekologi-skotsel/forskning2/markfuktighetskartor/om-slu-markfuktighetskarta/">https://www.slu.se/institutioner/skogens-ekologi-skotsel/forskning2/markfuktighetskartor/om-slu-markfuktighetskarta/</a></p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="metodöversikt"><a class="header" href="#metodöversikt">Metodöversikt</a></h1>
+<p>Processen för modelleringen kan grovt delas upp i fyra faser enligt nedan.</p>
+<ul>
+<li><a href="method/./prepare_hydrologial_dem.html">1. Förberedelser av hydrologisk höjdmodell</a></li>
+<li><a href="method/./calculate_regional_hydrology.html">2. Beräkna regionala hydrologiska egenskaper</a></li>
+<li><a href="method/./zonal_statistics.html">3. Beräkna zonstatistik inom varje påverkande område</a></li>
+<li><a href="method/./calculate_flowpaths.html">4. Beräkna rinnvägar från påverkande område</a></li>
+</ul>
+<div><!-- Generated by graphviz version 2.43.0 (0)
+ --><!-- Title: %3 Pages: 1 --><svg width="691pt" height="444pt"
+ viewBox="0.00 0.00 691.00 444.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 440)"><title>%3</title><polygon fill="white" stroke="transparent" points="-4,4 -4,-440 687,-440 687,4 -4,4"/><g id="clust1" class="cluster"><title>cluster_input</title><polygon fill="none" stroke="black" stroke-dasharray="1,5" points="24,-374 24,-428 675,-428 675,-374 24,-374"/><text text-anchor="middle" x="349.5" y="-412.8" font-family="Times,serif" font-size="14.00">INDATA</text></g><g id="clust3" class="cluster"><title>cluster_process</title><polygon fill="none" stroke="black" points="228,-141 228,-366 442,-366 442,-141 228,-141"/><text text-anchor="middle" x="335" y="-350.8" font-family="Times,serif" font-size="14.00">BEARBETNING</text></g><g id="clust4" class="cluster"><title>cluster_result</title><polygon fill="none" stroke="black" points="8,-8 8,-133 468,-133 468,-8 8,-8"/><text text-anchor="middle" x="238" y="-117.8" font-family="Times,serif" font-size="14.00">RESULTAT</text></g><!-- areas --><g id="node1" class="node"><title>areas</title><text text-anchor="middle" x="496" y="-385.8" font-family="Times,serif" font-size="14.00">Ärendeområden</text></g><!-- local_hydro --><g id="node10" class="node"><title>local_hydro</title><path fill="none" stroke="black" d="M422,-235C422,-235 248,-235 248,-235 242,-235 236,-229 236,-223 236,-223 236,-211 236,-211 236,-205 242,-199 248,-199 248,-199 422,-199 422,-199 428,-199 434,-205 434,-211 434,-211 434,-223 434,-223 434,-229 428,-235 422,-235"/><text text-anchor="middle" x="335" y="-214.5" font-family="Times,serif" font-size="10.00">3. Hydrologiska egenskaper (lokalt)</text></g><!-- areas&#45;&gt;local_hydro --><g id="edge9" class="edge"><title>areas&#45;&gt;local_hydro</title><path fill="none" stroke="black" d="M492.96,-381.77C482.79,-359.88 447.85,-289.84 400,-249 395.29,-244.98 389.98,-241.36 384.46,-238.13"/><polygon fill="black" stroke="black" points="378.89,-235.03 385.45,-235.59 381.52,-236.49 384.14,-237.95 384.14,-237.95 384.14,-237.95 381.52,-236.49 382.82,-240.31 378.89,-235.03 378.89,-235.03"/></g><!-- recipients --><g id="node2" class="node"><title>recipients</title><text text-anchor="middle" x="74" y="-385.8" font-family="Times,serif" font-size="14.00">Recipienter</text></g><!-- regional_hydro --><g id="node9" class="node"><title>regional_hydro</title><path fill="none" stroke="black" d="M384,-285C384,-285 248,-285 248,-285 242,-285 236,-279 236,-273 236,-273 236,-261 236,-261 236,-255 242,-249 248,-249 248,-249 384,-249 384,-249 390,-249 396,-255 396,-261 396,-261 396,-273 396,-273 396,-279 390,-285 384,-285"/><text text-anchor="middle" x="316" y="-270" font-family="Times,serif" font-size="10.00">2. Hydrologiska egenskaper</text><text text-anchor="middle" x="316" y="-259" font-family="Times,serif" font-size="10.00">(regionalt) och allokering</text></g><!-- recipients&#45;&gt;regional_hydro --><g id="edge6" class="edge"><title>recipients&#45;&gt;regional_hydro</title><path fill="none" stroke="black" d="M84.65,-381.88C110.06,-366.24 176.46,-326.31 235,-299 243.7,-294.94 253.09,-290.98 262.29,-287.32"/><polygon fill="black" stroke="black" points="267.99,-285.09 263.39,-289.79 265.19,-286.18 262.4,-287.28 262.4,-287.28 262.4,-287.28 265.19,-286.18 261.42,-284.77 267.99,-285.09 267.99,-285.09"/></g><!-- orig_dem --><g id="node3" class="node"><title>orig_dem</title><text text-anchor="middle" x="220" y="-385.8" font-family="Times,serif" font-size="14.00">Höjdmodell</text></g><!-- hydro_dem --><g id="node8" class="node"><title>hydro_dem</title><path fill="none" stroke="black" d="M377.5,-335C377.5,-335 250.5,-335 250.5,-335 244.5,-335 238.5,-329 238.5,-323 238.5,-323 238.5,-311 238.5,-311 238.5,-305 244.5,-299 250.5,-299 250.5,-299 377.5,-299 377.5,-299 383.5,-299 389.5,-305 389.5,-311 389.5,-311 389.5,-323 389.5,-323 389.5,-329 383.5,-335 377.5,-335"/><text text-anchor="middle" x="314" y="-314.5" font-family="Times,serif" font-size="10.00">1. Hydrologisk höjdmodell</text></g><!-- orig_dem&#45;&gt;hydro_dem --><g id="edge1" class="edge"><title>orig_dem&#45;&gt;hydro_dem</title><path fill="none" stroke="black" d="M228.67,-381.99C241.66,-372.25 266.74,-353.45 286.36,-338.73"/><polygon fill="black" stroke="black" points="291.22,-335.09 288.04,-340.85 288.82,-336.89 286.42,-338.69 286.42,-338.69 286.42,-338.69 288.82,-336.89 284.8,-336.53 291.22,-335.09 291.22,-335.09"/></g><!-- culverts --><g id="node4" class="node"><title>culverts</title><text text-anchor="middle" x="147" y="-387" font-family="Times,serif" font-size="10.00">Trummor</text></g><!-- culverts&#45;&gt;hydro_dem --><g id="edge2" class="edge"><title>culverts&#45;&gt;hydro_dem</title><path fill="none" stroke="black" d="M155.23,-383.98C160.75,-381 168.23,-377.11 175,-374 203.58,-360.88 236.15,-347.67 262.58,-337.37"/><polygon fill="black" stroke="black" points="268.47,-335.09 263.85,-339.78 265.67,-336.17 262.87,-337.26 262.87,-337.26 262.87,-337.26 265.67,-336.17 261.9,-334.74 268.47,-335.09 268.47,-335.09"/></g><!-- roads --><g id="node5" class="node"><title>roads</title><text text-anchor="middle" x="399" y="-387" font-family="Times,serif" font-size="10.00">Väg, järnväg</text></g><!-- roads&#45;&gt;hydro_dem --><g id="edge3" class="edge"><title>roads&#45;&gt;hydro_dem</title><path fill="none" stroke="black" d="M393.42,-383.87C382.6,-374.89 358.13,-354.6 339.19,-338.89"/><polygon fill="black" stroke="black" points="334.51,-335.01 340.85,-336.76 336.82,-336.93 339.13,-338.84 339.13,-338.84 339.13,-338.84 336.82,-336.93 337.4,-340.92 334.51,-335.01 334.51,-335.01"/></g><!-- streams --><g id="node6" class="node"><title>streams</title><text text-anchor="middle" x="314" y="-387" font-family="Times,serif" font-size="10.00">Vattendrag, diken</text></g><!-- streams&#45;&gt;hydro_dem --><g id="edge4" class="edge"><title>streams&#45;&gt;hydro_dem</title><path fill="none" stroke="black" d="M314,-383.87C314,-375.35 314,-356.64 314,-341.32"/><polygon fill="black" stroke="black" points="314,-335.01 316.7,-341.01 314,-338.01 314,-341.01 314,-341.01 314,-341.01 314,-338.01 311.3,-341.01 314,-335.01 314,-335.01"/></g><!-- mf --><g id="node7" class="node"><title>mf</title><text text-anchor="middle" x="614" y="-387" font-family="Times,serif" font-size="10.00">Markfuktighetskarta</text></g><!-- mf&#45;&gt;local_hydro --><g id="edge10" class="edge"><title>mf&#45;&gt;local_hydro</title><path fill="none" stroke="black" d="M608.73,-383.77C587.11,-364.58 502.54,-291.48 422,-249 413.86,-244.7 404.99,-240.78 396.13,-237.27"/><polygon fill="black" stroke="black" points="390.32,-235.02 396.89,-234.67 393.12,-236.1 395.92,-237.18 395.92,-237.18 395.92,-237.18 393.12,-236.1 394.94,-239.7 390.32,-235.02 390.32,-235.02"/></g><!-- hydro_dem&#45;&gt;regional_hydro --><g id="edge7" class="edge"><title>hydro_dem&#45;&gt;regional_hydro</title><path fill="none" stroke="black" d="M314.71,-298.94C314.82,-296.4 314.93,-293.73 315.04,-291.09"/><polygon fill="black" stroke="black" points="315.29,-285 317.74,-291.11 315.17,-288 315.04,-291 315.04,-291 315.04,-291 315.17,-288 312.34,-290.89 315.29,-285 315.29,-285"/></g><!-- regional_hydro&#45;&gt;local_hydro --><g id="edge11" class="edge"><title>regional_hydro&#45;&gt;local_hydro</title><path fill="none" stroke="black" d="M322.75,-248.94C323.82,-246.25 324.93,-243.44 326.04,-240.65"/><polygon fill="black" stroke="black" points="328.27,-235 328.57,-241.58 327.17,-237.79 326.06,-240.58 326.06,-240.58 326.06,-240.58 327.17,-237.79 323.55,-239.59 328.27,-235 328.27,-235"/></g><!-- flowpaths --><g id="node13" class="node"><title>flowpaths</title><ellipse fill="none" stroke="red" stroke-width="2" cx="225" cy="-84" rx="195.77" ry="18"/><text text-anchor="middle" x="225" y="-80.3" font-family="Times,serif" font-size="14.00">Rinnvägar med hydrologisk information</text></g><!-- regional_hydro&#45;&gt;flowpaths --><g id="edge8" class="edge"><title>regional_hydro&#45;&gt;flowpaths</title><path fill="none" stroke="black" d="M248.14,-248.91C242.32,-245.16 237.1,-240.58 233,-235 205.65,-197.75 212.33,-140.21 219.03,-108.31"/><polygon fill="black" stroke="black" points="220.36,-102.28 221.71,-108.72 219.72,-105.21 219.07,-108.14 219.07,-108.14 219.07,-108.14 219.72,-105.21 216.43,-107.56 220.36,-102.28 220.36,-102.28"/></g><!-- trace_flowpath --><g id="node11" class="node"><title>trace_flowpath</title><path fill="none" stroke="black" d="M382,-185C382,-185 262,-185 262,-185 256,-185 250,-179 250,-173 250,-173 250,-161 250,-161 250,-155 256,-149 262,-149 262,-149 382,-149 382,-149 388,-149 394,-155 394,-161 394,-161 394,-173 394,-173 394,-179 388,-185 382,-185"/><text text-anchor="middle" x="322" y="-164.5" font-family="Times,serif" font-size="10.00">4. Spårning av rinnvägar</text></g><!-- local_hydro&#45;&gt;trace_flowpath --><g id="edge12" class="edge"><title>local_hydro&#45;&gt;trace_flowpath</title><path fill="none" stroke="black" d="M330.38,-198.94C329.69,-196.4 328.97,-193.73 328.25,-191.09"/><polygon fill="black" stroke="black" points="326.61,-185 330.78,-190.09 327.39,-187.9 328.17,-190.79 328.17,-190.79 328.17,-190.79 327.39,-187.9 325.57,-191.5 326.61,-185 326.61,-185"/></g><!-- area_stats --><g id="node12" class="node"><title>area_stats</title><ellipse fill="none" stroke="red" stroke-width="2" cx="238" cy="-34" rx="221.76" ry="18"/><text text-anchor="middle" x="238" y="-30.3" font-family="Times,serif" font-size="14.00">Ärendeområden med hydrologisk information</text></g><!-- local_hydro&#45;&gt;area_stats --><g id="edge5" class="edge"><title>local_hydro&#45;&gt;area_stats</title><path fill="none" stroke="black" d="M379.14,-198.94C385.97,-195.04 392.55,-190.41 398,-185 436.4,-146.84 458.99,-107.31 424,-66 417.97,-58.88 405.4,-53.4 389.51,-49.17"/><polygon fill="black" stroke="black" points="383.51,-47.67 389.99,-46.5 386.42,-48.4 389.33,-49.12 389.33,-49.12 389.33,-49.12 386.42,-48.4 388.68,-51.74 383.51,-47.67 383.51,-47.67"/></g><!-- trace_flowpath&#45;&gt;flowpaths --><g id="edge13" class="edge"><title>trace_flowpath&#45;&gt;flowpaths</title><path fill="none" stroke="black" d="M301.43,-148.82C286.51,-136.36 266.25,-119.44 250.33,-106.15"/><polygon fill="black" stroke="black" points="245.54,-102.15 251.88,-103.93 247.84,-104.08 250.15,-106 250.15,-106 250.15,-106 247.84,-104.08 248.42,-108.07 245.54,-102.15 245.54,-102.15"/></g><!-- flowpaths&#45;&gt;area_stats --><g id="edge14" class="edge"><title>flowpaths&#45;&gt;area_stats</title><path fill="none" stroke="black" d="M229.62,-65.94C230.31,-63.4 231.03,-60.73 231.75,-58.09"/><polygon fill="black" stroke="black" points="233.39,-52 234.43,-58.5 232.61,-54.9 231.83,-57.79 231.83,-57.79 231.83,-57.79 232.61,-54.9 229.22,-57.09 233.39,-52 233.39,-52"/></g></g></svg></div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="förberedelser-av-hydrologisk-höjdmodell"><a class="header" href="#förberedelser-av-hydrologisk-höjdmodell">Förberedelser av hydrologisk höjdmodell</a></h1>
+<p>För att kunna göra hydrologiska analyser med ett tillfredställande utfall behöver höjdmodellen bearbetas i ett antal steg.</p>
+<div><!-- Generated by graphviz version 2.43.0 (0)
+ --><!-- Title: %3 Pages: 1 --><svg width="638pt" height="108pt"
+ viewBox="0.00 0.00 638.00 107.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 103.5)"><title>%3</title><polygon fill="white" stroke="transparent" points="-4,4 -4,-103.5 634,-103.5 634,4 -4,4"/><!-- orig_dem --><g id="node1" class="node"><title>orig_dem</title><text text-anchor="middle" x="21" y="-84.5" font-family="Times,serif" font-size="10.00">Original</text><text text-anchor="middle" x="21" y="-73.5" font-family="Times,serif" font-size="10.00"> DEM</text></g><!-- resample --><g id="node10" class="node"><title>resample</title><path fill="none" stroke="black" d="M111,-99.5C111,-99.5 68,-99.5 68,-99.5 62,-99.5 56,-93.5 56,-87.5 56,-87.5 56,-75.5 56,-75.5 56,-69.5 62,-63.5 68,-63.5 68,-63.5 111,-63.5 111,-63.5 117,-63.5 123,-69.5 123,-75.5 123,-75.5 123,-87.5 123,-87.5 123,-93.5 117,-99.5 111,-99.5"/><text text-anchor="middle" x="89.5" y="-79" font-family="Times,serif" font-size="10.00">Resample</text></g><!-- orig_dem&#45;&gt;resample --><g id="edge1" class="edge"><title>orig_dem&#45;&gt;resample</title><path fill="none" stroke="red" d="M42.31,-81.5C44.72,-81.5 47.23,-81.5 49.79,-81.5"/><polygon fill="red" stroke="red" points="55.81,-81.5 49.81,-84.2 52.81,-81.5 49.81,-81.5 49.81,-81.5 49.81,-81.5 52.81,-81.5 49.81,-78.8 55.81,-81.5 55.81,-81.5"/></g><!-- hydro_dem --><g id="node2" class="node"><title>hydro_dem</title><text text-anchor="middle" x="597" y="-32.5" font-family="Times,serif" font-size="10.00">Hydrological</text><text text-anchor="middle" x="597" y="-21.5" font-family="Times,serif" font-size="10.00"> DEM</text></g><!-- culverts --><g id="node3" class="node"><title>culverts</title><text text-anchor="middle" x="89.5" y="-48" font-family="Times,serif" font-size="10.00">Culverts</text></g><!-- snap --><g id="node7" class="node"><title>snap</title><path fill="none" stroke="black" d="M168,-69.5C168,-69.5 149,-69.5 149,-69.5 143,-69.5 137,-63.5 137,-57.5 137,-57.5 137,-45.5 137,-45.5 137,-39.5 143,-33.5 149,-33.5 149,-33.5 168,-33.5 168,-33.5 174,-33.5 180,-39.5 180,-45.5 180,-45.5 180,-57.5 180,-57.5 180,-63.5 174,-69.5 168,-69.5"/><text text-anchor="middle" x="158.5" y="-49" font-family="Times,serif" font-size="10.00">Snap</text></g><!-- culverts&#45;&gt;snap --><g id="edge6" class="edge"><title>culverts&#45;&gt;snap</title><path fill="none" stroke="black" d="M111.33,-50.81C117.44,-50.9 124.21,-51 130.63,-51.1"/><polygon fill="black" stroke="black" points="136.91,-51.19 130.87,-53.8 133.91,-51.15 130.91,-51.1 130.91,-51.1 130.91,-51.1 133.91,-51.15 130.95,-48.4 136.91,-51.19 136.91,-51.19"/></g><!-- roads --><g id="node4" class="node"><title>roads</title><text text-anchor="middle" x="89.5" y="-26" font-family="Times,serif" font-size="10.00">Roads</text></g><!-- roads&#45;&gt;snap --><g id="edge7" class="edge"><title>roads&#45;&gt;snap</title><path fill="none" stroke="black" d="M105.7,-33.72C113.17,-36.28 122.38,-39.45 130.96,-42.39"/><polygon fill="black" stroke="black" points="136.77,-44.38 130.22,-44.99 133.93,-43.41 131.09,-42.44 131.09,-42.44 131.09,-42.44 133.93,-43.41 131.97,-39.88 136.77,-44.38 136.77,-44.38"/></g><!-- burn_at --><g id="node12" class="node"><title>burn_at</title><path fill="none" stroke="black" d="M471,-47.5C471,-47.5 442,-47.5 442,-47.5 436,-47.5 430,-41.5 430,-35.5 430,-35.5 430,-23.5 430,-23.5 430,-17.5 436,-11.5 442,-11.5 442,-11.5 471,-11.5 471,-11.5 477,-11.5 483,-17.5 483,-23.5 483,-23.5 483,-35.5 483,-35.5 483,-41.5 477,-47.5 471,-47.5"/><text text-anchor="middle" x="456.5" y="-27" font-family="Times,serif" font-size="10.00">BurnAt</text></g><!-- roads&#45;&gt;burn_at --><g id="edge10" class="edge"><title>roads&#45;&gt;burn_at</title><path fill="none" stroke="black" d="M105.68,-27.31C129.41,-25.57 176.76,-22.5 217,-22.5 217,-22.5 217,-22.5 297.5,-22.5 341.26,-22.5 391.77,-25.21 423.67,-27.26"/><polygon fill="black" stroke="black" points="429.79,-27.66 423.63,-29.96 426.8,-27.47 423.8,-27.27 423.8,-27.27 423.8,-27.27 426.8,-27.47 423.98,-24.58 429.79,-27.66 429.79,-27.66"/></g><!-- streams --><g id="node5" class="node"><title>streams</title><text text-anchor="middle" x="383.5" y="-3" font-family="Times,serif" font-size="10.00">Streams</text></g><!-- streams&#45;&gt;burn_at --><g id="edge11" class="edge"><title>streams&#45;&gt;burn_at</title><path fill="none" stroke="black" d="M400.97,-11.07C407.82,-13.38 416.02,-16.16 423.95,-18.84"/><polygon fill="black" stroke="black" points="429.94,-20.86 423.39,-21.5 427.1,-19.9 424.26,-18.94 424.26,-18.94 424.26,-18.94 427.1,-19.9 425.12,-16.38 429.94,-20.86 429.94,-20.86"/></g><!-- other_streams --><g id="node6" class="node"><title>other_streams</title><text text-anchor="middle" x="296.5" y="-80" font-family="Times,serif" font-size="10.00">(Other streams)</text></g><!-- fill_burn --><g id="node11" class="node"><title>fill_burn</title><path fill="none" stroke="black" d="M404,-84.5C404,-84.5 363,-84.5 363,-84.5 357,-84.5 351,-78.5 351,-72.5 351,-72.5 351,-60.5 351,-60.5 351,-54.5 357,-48.5 363,-48.5 363,-48.5 404,-48.5 404,-48.5 410,-48.5 416,-54.5 416,-60.5 416,-60.5 416,-72.5 416,-72.5 416,-78.5 410,-84.5 404,-84.5"/><text text-anchor="middle" x="383.5" y="-64" font-family="Times,serif" font-size="10.00">(FillBurn)</text></g><!-- other_streams&#45;&gt;fill_burn --><g id="edge14" class="edge"><title>other_streams&#45;&gt;fill_burn</title><path fill="none" stroke="black" stroke-dasharray="5,2" d="M326.75,-76.99C332.59,-75.9 338.79,-74.73 344.86,-73.58"/><polygon fill="black" stroke="black" points="350.87,-72.45 345.47,-76.22 347.92,-73.01 344.97,-73.56 344.97,-73.56 344.97,-73.56 347.92,-73.01 344.47,-70.91 350.87,-72.45 350.87,-72.45"/></g><!-- buffer --><g id="node8" class="node"><title>buffer</title><path fill="none" stroke="black" d="M230,-69.5C230,-69.5 206,-69.5 206,-69.5 200,-69.5 194,-63.5 194,-57.5 194,-57.5 194,-45.5 194,-45.5 194,-39.5 200,-33.5 206,-33.5 206,-33.5 230,-33.5 230,-33.5 236,-33.5 242,-39.5 242,-45.5 242,-45.5 242,-57.5 242,-57.5 242,-63.5 236,-69.5 230,-69.5"/><text text-anchor="middle" x="218" y="-49" font-family="Times,serif" font-size="10.00">Buffer</text></g><!-- snap&#45;&gt;buffer --><g id="edge8" class="edge"><title>snap&#45;&gt;buffer</title><path fill="none" stroke="black" d="M180.26,-51.5C182.58,-51.5 184.98,-51.5 187.39,-51.5"/><polygon fill="black" stroke="black" points="193.74,-51.5 187.74,-54.2 190.74,-51.5 187.74,-51.5 187.74,-51.5 187.74,-51.5 190.74,-51.5 187.74,-48.8 193.74,-51.5 193.74,-51.5"/></g><!-- burn --><g id="node9" class="node"><title>burn</title><path fill="none" stroke="black" d="M305.5,-69.5C305.5,-69.5 287.5,-69.5 287.5,-69.5 281.5,-69.5 275.5,-63.5 275.5,-57.5 275.5,-57.5 275.5,-45.5 275.5,-45.5 275.5,-39.5 281.5,-33.5 287.5,-33.5 287.5,-33.5 305.5,-33.5 305.5,-33.5 311.5,-33.5 317.5,-39.5 317.5,-45.5 317.5,-45.5 317.5,-57.5 317.5,-57.5 317.5,-63.5 311.5,-69.5 305.5,-69.5"/><text text-anchor="middle" x="296.5" y="-49" font-family="Times,serif" font-size="10.00">Burn</text></g><!-- buffer&#45;&gt;burn --><g id="edge9" class="edge"><title>buffer&#45;&gt;burn</title><path fill="none" stroke="black" d="M242.37,-51.5C250.85,-51.5 260.5,-51.5 269.22,-51.5"/><polygon fill="black" stroke="black" points="275.38,-51.5 269.38,-54.2 272.38,-51.5 269.38,-51.5 269.38,-51.5 269.38,-51.5 272.38,-51.5 269.38,-48.8 275.38,-51.5 275.38,-51.5"/></g><!-- burn&#45;&gt;fill_burn --><g id="edge12" class="edge"><title>burn&#45;&gt;fill_burn</title><path fill="none" stroke="red" stroke-dasharray="5,2" d="M317.64,-55.05C325.78,-56.49 335.44,-58.2 344.79,-59.85"/><polygon fill="red" stroke="red" points="350.87,-60.92 344.49,-62.53 347.92,-60.4 344.96,-59.88 344.96,-59.88 344.96,-59.88 347.92,-60.4 345.43,-57.22 350.87,-60.92 350.87,-60.92"/></g><!-- burn&#45;&gt;burn_at --><g id="edge3" class="edge"><title>burn&#45;&gt;burn_at</title><path fill="none" stroke="red" d="M317.51,-48.71C344.29,-44.98 392.08,-38.33 423.79,-33.92"/><polygon fill="red" stroke="red" points="429.91,-33.06 424.34,-36.57 426.93,-33.48 423.96,-33.89 423.96,-33.89 423.96,-33.89 426.93,-33.48 423.59,-31.22 429.91,-33.06 429.91,-33.06"/></g><!-- resample&#45;&gt;burn --><g id="edge2" class="edge"><title>resample&#45;&gt;burn</title><path fill="none" stroke="red" d="M123.14,-82.92C154.12,-83.53 201.79,-82.55 242,-73.5 251.31,-71.4 261.09,-67.83 269.7,-64.17"/><polygon fill="red" stroke="red" points="275.45,-61.63 271.05,-66.52 272.7,-62.84 269.96,-64.05 269.96,-64.05 269.96,-64.05 272.7,-62.84 268.87,-61.58 275.45,-61.63 275.45,-61.63"/></g><!-- fill_burn&#45;&gt;burn_at --><g id="edge13" class="edge"><title>fill_burn&#45;&gt;burn_at</title><path fill="none" stroke="red" stroke-dasharray="5,2" d="M416.26,-49.95C418.98,-48.53 421.73,-47.1 424.44,-45.69"/><polygon fill="red" stroke="red" points="429.94,-42.82 425.87,-47.99 427.28,-44.21 424.62,-45.59 424.62,-45.59 424.62,-45.59 427.28,-44.21 423.37,-43.2 429.94,-42.82 429.94,-42.82"/></g><!-- breach --><g id="node13" class="node"><title>breach</title><path fill="none" stroke="black" d="M538,-47.5C538,-47.5 509,-47.5 509,-47.5 503,-47.5 497,-41.5 497,-35.5 497,-35.5 497,-23.5 497,-23.5 497,-17.5 503,-11.5 509,-11.5 509,-11.5 538,-11.5 538,-11.5 544,-11.5 550,-17.5 550,-23.5 550,-23.5 550,-35.5 550,-35.5 550,-41.5 544,-47.5 538,-47.5"/><text text-anchor="middle" x="523.5" y="-27" font-family="Times,serif" font-size="10.00">Breach</text></g><!-- burn_at&#45;&gt;breach --><g id="edge4" class="edge"><title>burn_at&#45;&gt;breach</title><path fill="none" stroke="red" d="M483.19,-29.5C485.74,-29.5 488.36,-29.5 490.96,-29.5"/><polygon fill="red" stroke="red" points="497,-29.5 491,-32.2 494,-29.5 491,-29.5 491,-29.5 491,-29.5 494,-29.5 491,-26.8 497,-29.5 497,-29.5"/></g><!-- breach&#45;&gt;hydro_dem --><g id="edge5" class="edge"><title>breach&#45;&gt;hydro_dem</title><path fill="none" stroke="red" d="M550.31,-29.5C552.61,-29.5 554.96,-29.5 557.33,-29.5"/><polygon fill="red" stroke="red" points="563.62,-29.5 557.62,-32.2 560.62,-29.5 557.62,-29.5 557.62,-29.5 557.62,-29.5 560.62,-29.5 557.62,-26.8 563.62,-29.5 563.62,-29.5"/></g></g></svg></div>
+<p><em>Figur 3.1.A. Flödesschema över de steg som ingår i bearbetning av den hydrologiska höjdmodellen</em></p>
+<h2 id="omvandla-upplösningcellstorlek"><a class="header" href="#omvandla-upplösningcellstorlek">Omvandla upplösning/cellstorlek</a></h2>
+<p>Markhöjdmodeller i gridformat (raster) med upplösningar &lt;= 1 m ger en hög
+detaljrikedom men ofta är det lämpligt att omvandla höjmodellen till en grövre
+upplösning då beräkningarna görs snabbare på större och färre raster-celler.
+Även om beräkningskraft och hastighet inte är ett problem kan upplösningen ha
+betydelse för modellering och beskrivning av hydrologin. En grövre upplösning
+skulle möjligen bättre kunna representera de generella rörelserna av både
+ytvatten och ytligt grundvatten.</p>
+<h2 id="bränna-in-passager-över-vägar-vid-kända-vägtrummor"><a class="header" href="#bränna-in-passager-över-vägar-vid-kända-vägtrummor">Bränna in passager över vägar vid kända vägtrummor</a></h2>
+<p>I en opreparerad höjdmodell utgör bankar och diken, vid vägar och järnvägar,
+barriärer för de rinnvägar som ska modelleras. I verkligheten passerar vattnet
+genom vägar och järnvägar via trummor. För att simulera detta kan barriärerna
+brytas upp där vi känner till att det finns trummor. Vägtrummor som punkter
+förankras till väglinjer och buffras sedan till cirklar med en given radie. Inom
+varje cirkel sänks höjdmodellen till det minsta höjdvärdet inom cirkeln.</p>
+<p><img src="method/../img/burn_culverts.jpg" alt="" /></p>
+<p><em>Figur 3.1.B. Inom cirkulära zoner runt kända trummor sänks höjdmodellen till
+den lägsta nivån för att skapa passage för rinnvägar genom väg och järnväg.
+Vektordata från Terrängkartan © Lantmäteriet och Vägtrummor punkter geografisk
+vy (Trafikverket). Bakgrundskarta: Markhöjdmodell Nedladdning, grid 1+ ©
+Lantmäteriet</em></p>
+<h2 id="bränna-in-passager-över-vägar-vid-kända-vattendrag"><a class="header" href="#bränna-in-passager-över-vägar-vid-kända-vattendrag">Bränna in passager över vägar vid kända vattendrag</a></h2>
+<p>Även större vattendrag, från t.ex. en topografisk karta, kan bli &quot;blockerade&quot; i
+höjmodellen där de passerar en väg- eller järnvägsbro. Vattnets passage i de här
+korsningarna kan brännas in på liknande sätt som för trummor men där istället
+vattendragens kända väg används för att hitta skärningspunkter med väg- och
+järnvägslänkarna. Se exempel i
+<a href="https://www.whiteboxgeo.com/manual/wbt_book/available_tools/hydrological_analysis.html#BurnStreamsAtRoads">Whitebox-manualen</a>.</p>
+<h2 id="bränna-in-kända-diken-från-dikeskartering"><a class="header" href="#bränna-in-kända-diken-från-dikeskartering">Bränna in kända diken från dikeskartering</a></h2>
+<p>För att ytterligare komplettera detaljgraden i den hydrologiska höjdmodellen så
+är det lämpligt att integrera en kartering av diken i skogsmark i höjdmodellen.
+Dikena, som är vektoriserade, &quot;bränns&quot; in i höjdmodellen med metoden
+<a href="https://www.whiteboxgeo.com/manual/wbt_book/available_tools/hydrological_analysis.html#FillBurn">FillBurn</a>.</p>
+<h2 id="eliminera-sänkor-med-bryta-fyll-metoden"><a class="header" href="#eliminera-sänkor-med-bryta-fyll-metoden">Eliminera sänkor med bryta-fyll-metoden</a></h2>
+<p>Det sista steget i förberedelser av den hydrologiska höjdmodellen är att skapa
+kontinuerliga rinnvägar genom att i första hand &quot;bryta&quot; ut en väg från en sänka
+till en lägre punkt i närheten och i andra hand fylla upp sänkor. Mer
+information om den här metoden finns bl.a. i
+<a href="https://www.whiteboxgeo.com/manual/wbt_book/available_tools/hydrological_analysis.html#BreachDepressions">Whitebox-manualen</a>.</p>
+<p>De här verktyget använder metoden <code>BreachDepressions</code> men författaren
+rekommenderar istället att använda varianten <code>BreachDepressionsLeastCost</code>.
+Skillnader i utfallet har inte studerats inom ramen för det här projektet.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="beräkna-regionala-hydrologiska-egenskaper"><a class="header" href="#beräkna-regionala-hydrologiska-egenskaper">Beräkna regionala hydrologiska egenskaper</a></h1>
+<blockquote>
+<p>Med <em>regional</em> avses hela det område, t.ex. ett större vattendrags
+avrinningsområde, som verktyget ska kunna utföra beräkningar för. Området
+mostvarar utbredningen för höjdmodellen i föregeånde steg och de beräknade
+egenskaperna kopplas i efterföljande steg till ärendepolygoner och rinnvägar
+inom området.</p>
+</blockquote>
+<p>Följande moment ingår i processen för beräkning av regionala hydrologiska
+egenskaper som resulterar i ett antal raster-dataset, d.v.s. att för varje
+ytenhet (beroende på höjdmodellens upplösning) presentera information som på
+något sätt är kopplat till flödesackumulering. Bearbetningen kan vara relativt
+tidskrävande men resultatet för hela (regionala) området kan återanvändas för
+återkommande bearbetning av flera avverkningsärendeområden.</p>
+<ul>
+<li>Beräkna flödesackumulering som specfikt avrinningsområde [m2]</li>
+<li>Beräkna flödesackumulering som specfikt avrinningsområde [ha]</li>
+<li>Extrahera vattendrag från flödesackumulering &gt; <code>x</code> ha</li>
+<li>Beräkna avstånd till extraherade vattendrag - <em>nära vattendrag</em></li>
+<li>Extrahera markfuktighet <em>blöt</em> vid <em>nära vattendrag</em></li>
+<li>Beräkna lutning i varje cell</li>
+<li>Beräkna sedimenttransportindex i varje cell</li>
+</ul>
+<div><!-- Generated by graphviz version 2.43.0 (0)
+ --><!-- Title: %3 Pages: 1 --><svg width="596pt" height="106pt"
+ viewBox="0.00 0.00 596.44 105.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 101.5)"><title>%3</title><polygon fill="white" stroke="transparent" points="-4,4 -4,-101.5 592.44,-101.5 592.44,4 -4,4"/><!-- breached_dem --><g id="node1" class="node"><title>breached_dem</title><text text-anchor="middle" x="24.5" y="-63" font-family="Times,serif" font-size="10.00">Breached</text><text text-anchor="middle" x="24.5" y="-52" font-family="Times,serif" font-size="10.00"> DEM</text></g><!-- flowacc_calc --><g id="node7" class="node"><title>flowacc_calc</title><path fill="none" stroke="black" d="M184,-78C184,-78 83,-78 83,-78 77,-78 71,-72 71,-66 71,-66 71,-54 71,-54 71,-48 77,-42 83,-42 83,-42 184,-42 184,-42 190,-42 196,-48 196,-54 196,-54 196,-66 196,-66 196,-72 190,-78 184,-78"/><text text-anchor="middle" x="133.5" y="-57.5" font-family="Times,serif" font-size="10.00">D8FlowAccumulation</text></g><!-- breached_dem&#45;&gt;flowacc_calc --><g id="edge1" class="edge"><title>breached_dem&#45;&gt;flowacc_calc</title><path fill="none" stroke="black" d="M49.25,-60C54.04,-60 59.3,-60 64.77,-60"/><polygon fill="black" stroke="black" points="70.79,-60 64.79,-62.7 67.79,-60 64.79,-60 64.79,-60 64.79,-60 67.79,-60 64.79,-57.3 70.79,-60 70.79,-60"/></g><!-- flowacc_data --><g id="node2" class="node"><title>flowacc_data</title><text text-anchor="middle" x="291.22" y="-89.5" font-family="Times,serif" font-size="10.00">Flow</text><text text-anchor="middle" x="291.22" y="-78.5" font-family="Times,serif" font-size="10.00"> accumulation</text><text text-anchor="middle" x="291.22" y="-67.5" font-family="Times,serif" font-size="10.00"> [m2]</text></g><!-- flowacc_ha_data --><g id="node3" class="node"><title>flowacc_ha_data</title><text text-anchor="middle" x="451.44" y="-68.5" font-family="Times,serif" font-size="10.00">Flow</text><text text-anchor="middle" x="451.44" y="-57.5" font-family="Times,serif" font-size="10.00"> accumulation</text><text text-anchor="middle" x="451.44" y="-46.5" font-family="Times,serif" font-size="10.00"> [ha]</text></g><!-- extract_streams_data --><g id="node4" class="node"><title>extract_streams_data</title><text text-anchor="middle" x="563.44" y="-21" font-family="Times,serif" font-size="10.00">Extracted</text><text text-anchor="middle" x="563.44" y="-10" font-family="Times,serif" font-size="10.00"> streams</text></g><!-- flowacc_joint --><g id="node5" class="node"><title>flowacc_joint</title><ellipse fill="black" stroke="black" cx="218.36" cy="-60" rx="0.36" ry="0.36"/></g><!-- flowacc_joint&#45;&gt;flowacc_data --><g id="edge3" class="edge"><title>flowacc_joint&#45;&gt;flowacc_data</title><path fill="none" stroke="black" d="M218.77,-60.02C219.72,-60.29 233.54,-64.35 248.78,-68.83"/><polygon fill="black" stroke="black" points="254.9,-70.62 248.38,-71.52 252.02,-69.78 249.14,-68.93 249.14,-68.93 249.14,-68.93 252.02,-69.78 249.9,-66.34 254.9,-70.62 254.9,-70.62"/></g><!-- flowacc_ha_calc --><g id="node8" class="node"><title>flowacc_ha_calc</title><path fill="none" stroke="black" d="M329.72,-57C329.72,-57 252.72,-57 252.72,-57 246.72,-57 240.72,-51 240.72,-45 240.72,-45 240.72,-33 240.72,-33 240.72,-27 246.72,-21 252.72,-21 252.72,-21 329.72,-21 329.72,-21 335.72,-21 341.72,-27 341.72,-33 341.72,-33 341.72,-45 341.72,-45 341.72,-51 335.72,-57 329.72,-57"/><text text-anchor="middle" x="291.22" y="-42" font-family="Times,serif" font-size="10.00">RasterCalculator</text><text text-anchor="middle" x="291.22" y="-31" font-family="Times,serif" font-size="10.00"> (flow.acc / 1e4)</text></g><!-- flowacc_joint&#45;&gt;flowacc_ha_calc --><g id="edge4" class="edge"><title>flowacc_joint&#45;&gt;flowacc_ha_calc</title><path fill="none" stroke="black" d="M218.77,-59.98C219.4,-59.8 225.74,-57.94 234.4,-55.39"/><polygon fill="black" stroke="black" points="240.4,-53.63 235.4,-57.91 237.52,-54.48 234.64,-55.32 234.64,-55.32 234.64,-55.32 237.52,-54.48 233.88,-52.73 240.4,-53.63 240.4,-53.63"/></g><!-- flowacc_ha_joint --><g id="node6" class="node"><title>flowacc_ha_joint</title><ellipse fill="black" stroke="black" cx="364.08" cy="-39" rx="0.36" ry="0.36"/></g><!-- flowacc_ha_joint&#45;&gt;flowacc_ha_data --><g id="edge6" class="edge"><title>flowacc_ha_joint&#45;&gt;flowacc_ha_data</title><path fill="none" stroke="black" d="M364.5,-39.02C365.82,-39.34 387.9,-44.73 409.34,-49.96"/><polygon fill="black" stroke="black" points="415.35,-51.43 408.88,-52.63 412.44,-50.72 409.52,-50.01 409.52,-50.01 409.52,-50.01 412.44,-50.72 410.16,-47.39 415.35,-51.43 415.35,-51.43"/></g><!-- extract_streams_calc --><g id="node9" class="node"><title>extract_streams_calc</title><path fill="none" stroke="black" d="M504.44,-36C504.44,-36 398.44,-36 398.44,-36 392.44,-36 386.44,-30 386.44,-24 386.44,-24 386.44,-12 386.44,-12 386.44,-6 392.44,0 398.44,0 398.44,0 504.44,0 504.44,0 510.44,0 516.44,-6 516.44,-12 516.44,-12 516.44,-24 516.44,-24 516.44,-30 510.44,-36 504.44,-36"/><text text-anchor="middle" x="451.44" y="-21" font-family="Times,serif" font-size="10.00">ConditionalEvaluation</text><text text-anchor="middle" x="451.44" y="-10" font-family="Times,serif" font-size="10.00"> (flow.acc &gt; x ha)</text></g><!-- flowacc_ha_joint&#45;&gt;extract_streams_calc --><g id="edge7" class="edge"><title>flowacc_ha_joint&#45;&gt;extract_streams_calc</title><path fill="none" stroke="black" d="M364.5,-38.98C365.18,-38.82 371.29,-37.33 379.98,-35.21"/><polygon fill="black" stroke="black" points="386.02,-33.73 380.84,-37.78 383.11,-34.44 380.19,-35.15 380.19,-35.15 380.19,-35.15 383.11,-34.44 379.55,-32.53 386.02,-33.73 386.02,-33.73"/></g><!-- flowacc_calc&#45;&gt;flowacc_joint --><g id="edge2" class="edge"><title>flowacc_calc&#45;&gt;flowacc_joint</title><path fill="none" stroke="black" d="M196.06,-60C207.79,-60 216.81,-60 217.89,-60"/></g><!-- flowacc_ha_calc&#45;&gt;flowacc_ha_joint --><g id="edge5" class="edge"><title>flowacc_ha_calc&#45;&gt;flowacc_ha_joint</title><path fill="none" stroke="black" d="M341.88,-39C353.32,-39 362.5,-39 363.61,-39"/></g><!-- extract_streams_calc&#45;&gt;extract_streams_data --><g id="edge8" class="edge"><title>extract_streams_calc&#45;&gt;extract_streams_data</title><path fill="none" stroke="black" d="M516.75,-18C521.92,-18 526.98,-18 531.73,-18"/><polygon fill="black" stroke="black" points="538.01,-18 532.01,-20.7 535.01,-18 532.01,-18 532.01,-18 532.01,-18 535.01,-18 532.01,-15.3 538.01,-18 538.01,-18"/></g></g></svg></div>
+<p><em>Figur 3.2.A. Process för beräkning av olika representationer av flödesackumulering</em></p>
+<h2 id="egenskaper-med-koppling-till-recipient"><a class="header" href="#egenskaper-med-koppling-till-recipient">Egenskaper med koppling till recipient</a></h2>
+<blockquote>
+<p>Recipienter är de vattendrag som det är av intresse att studera avrinning till
+från påverkande avrinningsområden, d.v.s. avvkerkningsområden.</p>
+</blockquote>
+<p>I följande steg beräknas allokering, d.v.s. vilken recipient som berörs av vad,
+samt rinnavstånd till recipient. Indata är vektoriserade ytor som representerar
+vattendragen och måste ha ett ID samt vara klassade som prioriterat eller icke
+prioriterat vattendrag (PRIO=1, PRIO=0).</p>
+<ul>
+<li>
+<p>Beräkna flödesriktningsraster (D8)</p>
+</li>
+<li>
+<p>Maska bort vattenkroppar från flödesriktningsraster</p>
+<blockquote>
+<p>Detta steg &quot;inaktiverar&quot; avrinning i maskningsområdet (recipienterna) vilket
+ger resultatet att allokeringsspårning stannar när en recipient har nåtts.</p>
+</blockquote>
+</li>
+<li>
+<p>Omvandla recipientvektorytor till raster med ID</p>
+</li>
+<li>
+<p>Omvandla recipientvektorytor till raster med information om prioritet</p>
+</li>
+<li>
+<p>Separera prio-raster i två raster - prio, ej prio</p>
+</li>
+<li>
+<p>Beräkna raster med rinnavstånd till prio / ej prio</p>
+</li>
+<li>
+<p>Vektorisera allokeringsraster till polygoner med recipient-ID</p>
+</li>
+<li>
+<p>Hämta information om prioritet från recipientpolygoner till allokeringspolygoner</p>
+</li>
+</ul>
+<div><!-- Generated by graphviz version 2.43.0 (0)
+ --><!-- Title: %3 Pages: 1 --><svg width="594pt" height="116pt"
+ viewBox="0.00 0.00 594.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)"><title>%3</title><polygon fill="white" stroke="transparent" points="-4,4 -4,-112 590,-112 590,4 -4,4"/><!-- trgt_vec --><g id="node1" class="node"><title>trgt_vec</title><text text-anchor="middle" x="38.5" y="-57" font-family="Times,serif" font-size="10.00">Target streams</text><text text-anchor="middle" x="38.5" y="-46" font-family="Times,serif" font-size="10.00"> (vector)</text></g><!-- p2r --><g id="node4" class="node"><title>p2r</title><path fill="none" stroke="black" d="M189,-72C189,-72 111,-72 111,-72 105,-72 99,-66 99,-60 99,-60 99,-48 99,-48 99,-42 105,-36 111,-36 111,-36 189,-36 189,-36 195,-36 201,-42 201,-48 201,-48 201,-60 201,-60 201,-66 195,-72 189,-72"/><text text-anchor="middle" x="150" y="-51.5" font-family="Times,serif" font-size="10.00">PolygonToRaster</text></g><!-- trgt_vec&#45;&gt;p2r --><g id="edge1" class="edge"><title>trgt_vec&#45;&gt;p2r</title><path fill="none" stroke="black" d="M77.18,-54C82.16,-54 87.35,-54 92.56,-54"/><polygon fill="black" stroke="black" points="98.68,-54 92.68,-56.7 95.68,-54 92.68,-54 92.68,-54 92.68,-54 95.68,-54 92.68,-51.3 98.68,-54 98.68,-54"/></g><!-- breached_dem --><g id="node2" class="node"><title>breached_dem</title><text text-anchor="middle" x="288" y="-57" font-family="Times,serif" font-size="10.00">Breached</text><text text-anchor="middle" x="288" y="-46" font-family="Times,serif" font-size="10.00"> DEM</text></g><!-- dist_pr --><g id="node7" class="node"><title>dist_pr</title><path fill="none" stroke="black" d="M473,-93C473,-93 387,-93 387,-93 381,-93 375,-87 375,-81 375,-81 375,-69 375,-69 375,-63 381,-57 387,-57 387,-57 473,-57 473,-57 479,-57 485,-63 485,-69 485,-69 485,-81 485,-81 485,-87 479,-93 473,-93"/><text text-anchor="middle" x="430" y="-78" font-family="Times,serif" font-size="10.00">DistanceToStream</text><text text-anchor="middle" x="430" y="-67" font-family="Times,serif" font-size="10.00"> (prio)</text></g><!-- breached_dem&#45;&gt;dist_pr --><g id="edge4" class="edge"><title>breached_dem&#45;&gt;dist_pr</title><path fill="none" stroke="black" d="M312.75,-57.56C328.16,-59.87 348.99,-63 368.76,-65.96"/><polygon fill="black" stroke="black" points="374.85,-66.88 368.52,-68.66 371.88,-66.43 368.92,-65.99 368.92,-65.99 368.92,-65.99 371.88,-66.43 369.32,-63.32 374.85,-66.88 374.85,-66.88"/></g><!-- dist_np --><g id="node8" class="node"><title>dist_np</title><path fill="none" stroke="black" d="M473,-50C473,-50 387,-50 387,-50 381,-50 375,-44 375,-38 375,-38 375,-26 375,-26 375,-20 381,-14 387,-14 387,-14 473,-14 473,-14 479,-14 485,-20 485,-26 485,-26 485,-38 485,-38 485,-44 479,-50 473,-50"/><text text-anchor="middle" x="430" y="-35" font-family="Times,serif" font-size="10.00">DistanceToStream</text><text text-anchor="middle" x="430" y="-24" font-family="Times,serif" font-size="10.00"> (non&#45;prio)</text></g><!-- breached_dem&#45;&gt;dist_np --><g id="edge5" class="edge"><title>breached_dem&#45;&gt;dist_np</title><path fill="none" stroke="black" d="M312.75,-50.27C328.16,-47.85 348.99,-44.57 368.76,-41.47"/><polygon fill="black" stroke="black" points="374.85,-40.51 369.34,-44.11 371.89,-40.97 368.92,-41.44 368.92,-41.44 368.92,-41.44 371.89,-40.97 368.5,-38.77 374.85,-40.51 374.85,-40.51"/></g><!-- aoi --><g id="node3" class="node"><title>aoi</title><text text-anchor="middle" x="546.5" y="-81.5" font-family="Times,serif" font-size="10.00">Area of interest</text></g><!-- zs --><g id="node9" class="node"><title>zs</title><polygon fill="none" stroke="black" stroke-dasharray="5,2" points="582,-71 511,-71 511,-35 582,-35 582,-71"/><text text-anchor="middle" x="546.5" y="-50.5" font-family="Times,serif" font-size="10.00">ZonalStats</text></g><!-- aoi&#45;&gt;zs --><g id="edge10" class="edge"><title>aoi&#45;&gt;zs</title><path fill="none" stroke="black" d="M546.5,-78.49C546.5,-78.2 546.5,-77.9 546.5,-77.6"/><polygon fill="black" stroke="black" points="546.5,-71.41 549.2,-77.41 546.5,-74.41 546.5,-77.41 546.5,-77.41 546.5,-77.41 546.5,-74.41 543.8,-77.41 546.5,-71.41 546.5,-71.41"/></g><!-- ce_pr --><g id="node5" class="node"><title>ce_pr</title><path fill="none" stroke="black" d="M341,-108C341,-108 235,-108 235,-108 229,-108 223,-102 223,-96 223,-96 223,-84 223,-84 223,-78 229,-72 235,-72 235,-72 341,-72 341,-72 347,-72 353,-78 353,-84 353,-84 353,-96 353,-96 353,-102 347,-108 341,-108"/><text text-anchor="middle" x="288" y="-93" font-family="Times,serif" font-size="10.00">ConditionalEvaluation</text><text text-anchor="middle" x="288" y="-82" font-family="Times,serif" font-size="10.00"> (value==1)</text></g><!-- p2r&#45;&gt;ce_pr --><g id="edge2" class="edge"><title>p2r&#45;&gt;ce_pr</title><path fill="none" stroke="black" d="M201.25,-67.3C206.26,-68.63 211.4,-69.99 216.56,-71.35"/><polygon fill="black" stroke="black" points="222.62,-72.96 216.13,-74.03 219.72,-72.19 216.82,-71.42 216.82,-71.42 216.82,-71.42 219.72,-72.19 217.51,-68.81 222.62,-72.96 222.62,-72.96"/></g><!-- ce_np --><g id="node6" class="node"><title>ce_np</title><path fill="none" stroke="black" d="M341,-36C341,-36 235,-36 235,-36 229,-36 223,-30 223,-24 223,-24 223,-12 223,-12 223,-6 229,0 235,0 235,0 341,0 341,0 347,0 353,-6 353,-12 353,-12 353,-24 353,-24 353,-30 347,-36 341,-36"/><text text-anchor="middle" x="288" y="-21" font-family="Times,serif" font-size="10.00">ConditionalEvaluation</text><text text-anchor="middle" x="288" y="-10" font-family="Times,serif" font-size="10.00"> (value==0)</text></g><!-- p2r&#45;&gt;ce_np --><g id="edge3" class="edge"><title>p2r&#45;&gt;ce_np</title><path fill="none" stroke="black" d="M201.25,-40.7C206.26,-39.37 211.4,-38.01 216.56,-36.65"/><polygon fill="black" stroke="black" points="222.62,-35.04 217.51,-39.19 219.72,-35.81 216.82,-36.58 216.82,-36.58 216.82,-36.58 219.72,-35.81 216.13,-33.97 222.62,-35.04 222.62,-35.04"/></g><!-- ce_pr&#45;&gt;dist_pr --><g id="edge8" class="edge"><title>ce_pr&#45;&gt;dist_pr</title><path fill="none" stroke="black" d="M353.26,-83.11C358.43,-82.56 363.64,-82 368.78,-81.45"/><polygon fill="black" stroke="black" points="374.77,-80.81 369.09,-84.13 371.78,-81.13 368.8,-81.45 368.8,-81.45 368.8,-81.45 371.78,-81.13 368.51,-78.77 374.77,-80.81 374.77,-80.81"/></g><!-- ce_np&#45;&gt;dist_np --><g id="edge9" class="edge"><title>ce_np&#45;&gt;dist_np</title><path fill="none" stroke="black" d="M353.26,-24.43C358.43,-24.94 363.64,-25.46 368.78,-25.98"/><polygon fill="black" stroke="black" points="374.77,-26.58 368.53,-28.67 371.78,-26.28 368.8,-25.98 368.8,-25.98 368.8,-25.98 371.78,-26.28 369.06,-23.29 374.77,-26.58 374.77,-26.58"/></g><!-- dist_pr&#45;&gt;zs --><g id="edge6" class="edge"><title>dist_pr&#45;&gt;zs</title><path fill="none" stroke="black" d="M485.23,-64.58C491.73,-63.33 498.29,-62.07 504.56,-60.87"/><polygon fill="black" stroke="black" points="510.72,-59.68 505.34,-63.47 507.78,-60.25 504.83,-60.81 504.83,-60.81 504.83,-60.81 507.78,-60.25 504.32,-58.16 510.72,-59.68 510.72,-59.68"/></g><!-- dist_np&#45;&gt;zs --><g id="edge7" class="edge"><title>dist_np&#45;&gt;zs</title><path fill="none" stroke="black" d="M485.23,-41.95C491.73,-43.14 498.29,-44.34 504.56,-45.49"/><polygon fill="black" stroke="black" points="510.72,-46.62 504.33,-48.19 507.77,-46.08 504.82,-45.54 504.82,-45.54 504.82,-45.54 507.77,-46.08 505.31,-42.88 510.72,-46.62 510.72,-46.62"/></g></g></svg></div>
+<p><em>Figur 3.2.B. Process för beräkning av allokering och rinnavstånd till recipienter</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="beräkna-zonstatistik-inom-varje-påverkande-område"><a class="header" href="#beräkna-zonstatistik-inom-varje-påverkande-område">Beräkna zonstatistik inom varje påverkande område</a></h1>
+<ul>
+<li>Beräkna kortaste rinnsträckan till både prioriterade och icke-prioriterade vatten</li>
+<li>Beräkna statistik för markfuktighetskarta</li>
+<li>Beräkna maximal flödesackumulering</li>
+</ul>
+<div><!-- Generated by graphviz version 2.43.0 (0)
+ --><!-- Title: %3 Pages: 1 --><svg width="376pt" height="115pt"
+ viewBox="0.00 0.00 376.00 114.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 110.5)"><title>%3</title><polygon fill="white" stroke="transparent" points="-4,4 -4,-110.5 372,-110.5 372,4 -4,4"/><!-- dist_pr --><g id="node1" class="node"><title>dist_pr</title><text text-anchor="middle" x="42.5" y="-76.5" font-family="Times,serif" font-size="10.00">Distance to</text><text text-anchor="middle" x="42.5" y="-65.5" font-family="Times,serif" font-size="10.00"> prio stream</text></g><!-- zs --><g id="node8" class="node"><title>zs</title><polygon fill="none" stroke="black" stroke-dasharray="5,2" points="210.5,-69.5 138.5,-69.5 138.5,-33.5 210.5,-33.5 210.5,-69.5"/><text text-anchor="middle" x="174.5" y="-49" font-family="Times,serif" font-size="10.00">ZonalStats</text></g><!-- dist_pr&#45;&gt;zs --><g id="edge1" class="edge"><title>dist_pr&#45;&gt;zs</title><path fill="none" stroke="black" d="M73.65,-68.4C91.04,-65.46 113.15,-61.71 132.14,-58.5"/><polygon fill="black" stroke="black" points="138.45,-57.43 132.98,-61.1 135.49,-57.93 132.53,-58.43 132.53,-58.43 132.53,-58.43 135.49,-57.93 132.08,-55.77 138.45,-57.43 138.45,-57.43"/></g><!-- dist_np --><g id="node2" class="node"><title>dist_np</title><text text-anchor="middle" x="42.5" y="-32.5" font-family="Times,serif" font-size="10.00">Distance to</text><text text-anchor="middle" x="42.5" y="-21.5" font-family="Times,serif" font-size="10.00"> non&#45;prio stream</text></g><!-- dist_np&#45;&gt;zs --><g id="edge2" class="edge"><title>dist_np&#45;&gt;zs</title><path fill="none" stroke="black" d="M85.35,-36.58C100.29,-39.11 117.1,-41.96 132.01,-44.48"/><polygon fill="black" stroke="black" points="138.27,-45.54 131.9,-47.2 135.31,-45.04 132.35,-44.54 132.35,-44.54 132.35,-44.54 135.31,-45.04 132.8,-41.87 138.27,-45.54 138.27,-45.54"/></g><!-- mf_class --><g id="node3" class="node"><title>mf_class</title><text text-anchor="middle" x="316" y="-98.5" font-family="Times,serif" font-size="10.00">Soil moisture</text><text text-anchor="middle" x="316" y="-87.5" font-family="Times,serif" font-size="10.00"> reclassified</text></g><!-- mf_class&#45;&gt;zs --><g id="edge3" class="edge"><title>mf_class&#45;&gt;zs</title><path fill="none" stroke="black" d="M282.21,-85.16C262.57,-78.96 237.43,-71.03 216.49,-64.43"/><polygon fill="black" stroke="black" points="210.7,-62.6 217.24,-61.83 213.56,-63.51 216.42,-64.41 216.42,-64.41 216.42,-64.41 213.56,-63.51 215.61,-66.98 210.7,-62.6 210.7,-62.6"/></g><!-- mf_wetstr --><g id="node4" class="node"><title>mf_wetstr</title><text text-anchor="middle" x="316" y="-54.5" font-family="Times,serif" font-size="10.00">Soil moisture &quot;WET&quot;</text><text text-anchor="middle" x="316" y="-43.5" font-family="Times,serif" font-size="10.00"> near streams</text></g><!-- mf_wetstr&#45;&gt;zs --><g id="edge4" class="edge"><title>mf_wetstr&#45;&gt;zs</title><path fill="none" stroke="black" d="M264,-51.5C248.5,-51.5 231.68,-51.5 216.9,-51.5"/><polygon fill="black" stroke="black" points="210.7,-51.5 216.7,-48.8 213.7,-51.5 216.7,-51.5 216.7,-51.5 216.7,-51.5 213.7,-51.5 216.7,-54.2 210.7,-51.5 210.7,-51.5"/></g><!-- flow_acc --><g id="node5" class="node"><title>flow_acc</title><text text-anchor="middle" x="316" y="-10" font-family="Times,serif" font-size="10.00">Flow accumulation</text></g><!-- flow_acc&#45;&gt;zs --><g id="edge5" class="edge"><title>flow_acc&#45;&gt;zs</title><path fill="none" stroke="black" d="M294.93,-18.11C274.6,-23.8 242.55,-32.75 216.77,-39.96"/><polygon fill="black" stroke="black" points="210.7,-41.66 215.75,-37.44 213.59,-40.85 216.48,-40.04 216.48,-40.04 216.48,-40.04 213.59,-40.85 217.21,-42.64 210.7,-41.66 210.7,-41.66"/></g><!-- aoi --><g id="node6" class="node"><title>aoi</title><text text-anchor="middle" x="174.5" y="-95" font-family="Times,serif" font-size="10.00">Area of interest</text></g><!-- aoi&#45;&gt;zs --><g id="edge6" class="edge"><title>aoi&#45;&gt;zs</title><path fill="none" stroke="black" d="M174.5,-91.88C174.5,-86.6 174.5,-81.31 174.5,-76.03"/><polygon fill="black" stroke="black" points="174.5,-69.83 177.2,-75.83 174.5,-72.83 174.5,-75.83 174.5,-75.83 174.5,-75.83 174.5,-72.83 171.8,-75.83 174.5,-69.83 174.5,-69.83"/></g><!-- output --><g id="node7" class="node"><title>output</title><text text-anchor="middle" x="174.5" y="-3" font-family="Times,serif" font-size="10.00">Zonal stats output</text></g><!-- zs&#45;&gt;output --><g id="edge7" class="edge"><title>zs&#45;&gt;output</title><path fill="none" stroke="black" d="M174.5,-33.26C174.5,-27.99 174.5,-22.71 174.5,-17.44"/><polygon fill="black" stroke="black" points="174.5,-11.25 177.2,-17.25 174.5,-14.25 174.5,-17.25 174.5,-17.25 174.5,-17.25 174.5,-14.25 171.8,-17.25 174.5,-11.25 174.5,-11.25"/></g></g></svg></div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="beräkna-rinnvägar-från-påverkande-område"><a class="header" href="#beräkna-rinnvägar-från-påverkande-område">Beräkna rinnvägar från påverkande område</a></h1>
+<p>Beräkning av rinnvägar utgående från påverkande områden görs iterativt per
+område genom att spåra nedströms från ett antal punkter inom området som bedöms
+sammanfalla med betydande flödesackumulering. Med andra ord kan detta beskrivas
+som hur stort det bidragande avrinningsområdet till en punkt måste vara för att
+ytvatten ska bildas. Detta tröskelvärde varierar mellan olika delar av landet
+och årstider. Beräkningsprocessen kan liknas med att släppa en vattendroppe i
+varje sådan punkt och följa dem till de når en recipient.</p>
+<p><img src="method/../img/flowpath_extraction.jpg" alt="" />
+<em>Figur 3.4.A. Beräkning av rinnvägar för ett ärendeområde med avrinning till utpekade
+recipienter skapat utifrån Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet.</em></p>
+<p>I figur 3.4.A illustreras principen för processen att extrahera rinnvägar för
+ett ärendeområde med avrinning till utpekade recipienter. Processen kan grovt
+delas upp i fyra steg:</p>
+<ol>
+<li>Klipp flödesackumuleringsraster till ärendeområdet</li>
+<li>Omvandla klippt flödesackumulering till vektorpunkter (och behåll värde som
+attribut)</li>
+<li>Filtrera fram punkter med betydande flödesckumulering</li>
+<li>Beräkna nedströms rinnvägar från utvalda punkter och stanna spårning vid
+träff av recipient</li>
+</ol>
+<h2 id="efterbearbetning-av-rinnvägar"><a class="header" href="#efterbearbetning-av-rinnvägar">Efterbearbetning av rinnvägar</a></h2>
+<ul>
+<li>
+<p>Slå samman rinnvägar från alla avverkningsområden</p>
+</li>
+<li>
+<p>Ta bort segment inom ärendeområden</p>
+<blockquote>
+<p>Det här steget rensar bort många små segment som ligger nära källpunkterna
+och påverkar efterföljande beräkningstid och datamängd signifikant</p>
+</blockquote>
+</li>
+<li>
+<p>Rasterisera sammanslagna rinnvägar</p>
+</li>
+<li>
+<p>Beräkna rinnvägslutning längs rasteriserade rinnvägar</p>
+</li>
+<li>
+<p>Dela upp rinnvägar i segment som är minst <code>x</code> m långa</p>
+</li>
+<li>
+<p>Buffra segment med <code>y</code> m</p>
+</li>
+<li>
+<p>Beräkna medelvärde av rinnvägslutning inom varje buffertsegment</p>
+</li>
+<li>
+<p>Beräkna medelvärde av sedimenttransportindex inom varje buffertsegment</p>
+</li>
+<li>
+<p>Beräkna medelvärde av flödesackumulering inom varje buffertsegment</p>
+</li>
+<li>
+<p>Överför beräknad statistik till linjesegment</p>
+</li>
+<li>
+<p>Utjämna (smooth) segmenterade rinnvägar med statistik</p>
+</li>
+<li>
+<p>Hämta information om recipient</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="utdata"><a class="header" href="#utdata">Utdata</a></h1>
+<ul>
+<li><a href="output/./areas/areas_overview.html">Ärendepolygoner med hydrologisk statistik</a></li>
+<li><a href="output/./flowpaths/flowpaths_overview.html">Rinnvägslinjer för avrinning nedströms ärendeytor</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Ärendepolygoner-med-hydrologisk-statistik"><a class="header" href="#Ärendepolygoner-med-hydrologisk-statistik">Ärendepolygoner med hydrologisk statistik</a></h1>
+<ul>
+<li>Med &quot;området&quot; avses respektive ärendes geografiska yta.</li>
+<li>Eventuella ärendeegenskaper som finns med i indata beskrivs ej nedan</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Egenskap</th><th>Kolumn</th><th>Beskrivning</th></tr></thead><tbody>
+<tr><td><strong>Ärende-ID</strong></td><td>id</td><td>Polygonens objekt-ID</td></tr>
+<tr><td><strong>Ärendebeteckning</strong></td><td>arende_bet</td><td>Ärendebeteckning</td></tr>
+<tr><td><strong>Manuell handläggning</strong></td><td>man_handl</td><td>Bedömning manuell handläggning (0=Nej, 1=Ja)</td></tr>
+<tr><td><strong>Motivering, handläggning</strong></td><td>motivering</td><td>Motivering för eller emot manuell handläggning</td></tr>
+<tr><td><strong>Avrinning till prioriterat vatten</strong></td><td>prio</td><td>Avrinning från området når prioriterat vattendrag (utan passage via ej prioriterat vatten) (0=Nej, 1=Ja)</td></tr>
+<tr><td><strong>Kortaste rinnsträcka (m) till PV</strong></td><td>dstpr_min</td><td>Minsta rinnavstånd (m) till prioriterat vattendrag</td></tr>
+<tr><td><strong>Kortaste rinnsträcka (m) till icke-PV</strong></td><td>dstnp_min</td><td>Minsta rinnavstånd (m) till ej prioriterat vattendrag</td></tr>
+<tr><td><strong>Blöt yta nära vattendrag</strong></td><td>wetstr_sum</td><td>Summerad yta (m2) av blött område som ligger inom 5 m till ett vattendrag med minst 10 ha tillrinningsyta</td></tr>
+<tr><td><strong>Maximal flödesackumulering (ha)</strong></td><td>flwacc_max</td><td>Maximal flödesackumulering i en punkt inom området som specifik avrinningsyta (ha)</td></tr>
+<tr><td><strong>Torr yta (m2)</strong></td><td>dry</td><td>Areal (m2) inom området som utgörs av TORR mark enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Frisk-Fuktig yta (m2)</strong></td><td>dmp</td><td>Areal (m2) inom området som utgörs av FRISK-FUKTIG mark enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Blöt yta (m2)</strong></td><td>wet</td><td>Areal (m2) inom området som utgörs av BLÖT mark enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Öppet vatten (m2)</strong></td><td>wtr</td><td>Areal (m2) inom området som utgörs av ÖPPET VATTEN enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Torr yta (%)</strong></td><td>dry_frac</td><td>Andel av området som utgörs av TORR mark enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Frisk-Fuktig yta (%)</strong></td><td>dmp_frac</td><td>Andel av området som utgörs av FRISK-FUKTIG mark enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Blöt yta (%)</strong></td><td>wet_frac</td><td>Andel av området som utgörs av BLÖT mark enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Öppet vatten (%)</strong>]</td><td>wtr_frac</td><td>Andel av området som utgörs av ÖPPET VATTEN enl. markfuktighetskarta</td></tr>
+<tr><td><strong>Recipient-ID</strong></td><td>trgt_fid</td><td>Objekt-ID för recipienten (vattendragsyta)</td></tr>
+<tr><td><strong>Sedimenttransportindex nedströms (medel)</strong></td><td>st_avg_avg</td><td>Medelvärde av genomsnittligt sedimenttransportindex för rinnvägar nedströms området</td></tr>
+<tr><td><strong>Sedimenttransportindex nedströms (övre kvartil)</strong></td><td>st_avg_q3</td><td>Övre kvartil av genomsnittligt sedimenttransportindex för rinnvägar nedströms området</td></tr>
+<tr><td><strong>Lutning nedströms (medel)</strong></td><td>slp_avg_avg</td><td>Medelvärde av genomsnittlig flödesvägslutning för rinnvägar nedströms området</td></tr>
+<tr><td><strong>Lutning nedströms (övre kvartil)</strong></td><td>slp_avg_q3</td><td>Övre kvartil av genomsnittlig flödesvägslutning för rinnvägar nedströms området</td></tr>
+<tr><td><strong>Flödesackumulering nedströms (medel)</strong></td><td>fla_avg_avg</td><td>Medelvärde av genomsnittlig flödesackumulering för rinnvägar nedströms området</td></tr>
+<tr><td><strong>Flödesackumulering nedströms (övre kvartil)</strong></td><td>fla_avg_q3</td><td>Övre kvartil av genomsnittlig flödesackumulering för rinnvägar nedströms området</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="avrinning-till-prioriterat-vatten-pv"><a class="header" href="#avrinning-till-prioriterat-vatten-pv">Avrinning till prioriterat vatten (PV)</a></h1>
+<p>Om värdet på egenskapen är <strong>Ja</strong> indikerar detta att avrinning från området når
+en PV-recipient via en eller flera rinnvägar i landskapet nedströms. Om
+rinnvägarna i verkligheten för strömmande vatten beror i sin tur på om
+flödesackumulering är tillräckligt stor i kombination med andra faktorer som
+t.ex. nederbörd.</p>
+<p>Om värdet är <strong>Nej</strong> innebär det att modellen har stannat spårning nedströms när
+en vattenkropp som är icke-PV påträffats, samtidigt som PV inte har påträffats
+längs rinnvägar i någon annan riktning. Det kan ändå finnas konnektivitet med
+PV <em>via</em> icke-PV som spårning stannat i, vilket i praktiken innebär att icke-PV
+agerar som buffertreservoar (se exempel i figur 4.1.1.A).</p>
+<p>Om bedömning saknas betyder det att flödesackumulering inom aktuellt område inte
+överstiger det tröskelvärde som ges till modellen för att bestämma när
+ytavrinning bildas.</p>
+<p><img src="output/areas/../../img/out-prio.jpg" alt="" />
+<em>Figur 4.1.1.A. Ärendeområden allokeras till recipient med hjälp av
+delavrinningsområden. Avrinning från grönt område slutar i icke-PV medan rött
+når PV. Gult område överlappar tre delavrinningsområden, varav ett till PV, men
+flödesackumulering är inte tillräckligt stor. Resultat skapat utifrån
+Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet. Bakgrundsbild: Topografisk
+webbkarta Visning, skiktindelad och Ortofoto färg, 0.5 m © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="kortaste-rinnsträcka-till-pv--icke-pv"><a class="header" href="#kortaste-rinnsträcka-till-pv--icke-pv">Kortaste rinnsträcka till PV / icke-PV</a></h1>
+<p>Inom varje ärendeområde beräknas den kortaste rinnsträckan till både PV- och
+icke-PV-recipienter. Ibland finns det flera rinnvägar till samma recipient men
+det är enbart det kortaste avståndet som redovisas. För fall där avrinning inte
+sker till PV respektive icke-PV, p.g.a. låg flödesackumulering, redovisas ingen
+rinnsträcka.</p>
+<p><img src="output/areas/../../img/out-downslope-distance.jpg" alt="" />
+<em>Figur 4.1.2.A. Avrinning från ett avverkningsområde sker via två vägar till samma
+recipient. Den kortaste rinnsträckan (södra) redovisas kopplat till ärendet.
+Resultat skapat utifrån Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet.
+Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad och Ortofoto färg,
+0.5 m © Lantmäteriet.</em></p>
+<p><img src="output/areas/../../img/out-downslope-distance-2.jpg" alt="" />
+<em>Figur 4.1.2.B. Avrinning från ett avverkningsområde sker till både PV och
+icke-PV. Den kortaste rinnsträckan för respektive recipient redovisas kopplat
+till ärendet. Resultat skapat utifrån Markhöjdmodell Nedladdning, grid 1+ ©
+Lantmäteriet. Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad och
+Ortofoto färg, 0.5 m © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="arealer-och-andelar-av-markfuktighetsklasser-inom-ärendeområden"><a class="header" href="#arealer-och-andelar-av-markfuktighetsklasser-inom-ärendeområden">Arealer och andelar av markfuktighetsklasser inom ärendeområden</a></h2>
+<p>Inom ärendeområden kan yta som utgörs av markfuktighetskartans olika klasser
+summeras. Förekomst av klasserna summeras var för sig, både som absolut mått
+(m2) och som andel av områdets totala yta. De fyra klasserna är:</p>
+<ul>
+<li>Torr</li>
+<li>Frisk-fuktig</li>
+<li>Blöt</li>
+<li>Öppet vatten</li>
+</ul>
+<p><img src="output/areas/../../img/out-mf.jpg" alt="" />
+<em>Figur 4.1.3.A. Arealer av de olika markfuktighetsklasserna infom ett område
+summeras och redovisas. Resultat och bakgrundsbild skapat utifrån SLU
+Markfuktighetskarta.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="blöt-yta-nära-vattendrag"><a class="header" href="#blöt-yta-nära-vattendrag">Blöt yta nära vattendrag</a></h1>
+<p>Ytor inom ärendeområdet som är klassade som <em><strong>blöt</strong></em> (ej <em>öppet vatten</em>)
+enligt markfuktighetskarta och som sammanfaller med vattendrag (eller sannolik
+förekomst av strömmande vatten) bedöms utgöra en betydande risk vid körskador.</p>
+<p>För att kvantifiera förekomsten av en sådan risk måste först identifiering av
+vattendrag, som passerar området, ske. Extrahering av sådana vattendrag görs
+från höjdmodell baserat på punkter där flödesackumulering överstiger ett bestämt
+tröskelvärde (t.ex. 10 ha). Därefter beräknas en <em>X</em> meter (5 m i exempel nedan)
+bred buffertzon längs vattendragen, men enbart där blöt mark förekommer. Den
+resulterande ytan (m2) summeras inom området och utgör värdet för denna
+egenskap.</p>
+<p><img src="output/areas/../../img/out-wetstr.jpg" alt="" />
+<em>Figur 4.1.4.A. Blöt yta nära vattendrag. Resultat skapat utifrån SLU
+Markfuktighetskarta och Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet.
+Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad och Ortofoto färg,
+0.5 m © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rinnvägslinjer-för-avrinning-nedströms-ärendeytor"><a class="header" href="#rinnvägslinjer-för-avrinning-nedströms-ärendeytor">Rinnvägslinjer för avrinning nedströms ärendeytor</a></h1>
+<ul>
+<li>Rinnvägar är uppdelade i segment om X meter (standard är 100 m)</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Egenskap</th><th>Kolumn</th><th>Beskrivning</th></tr></thead><tbody>
+<tr><td><strong>Segment-ID</strong></td><td>segm_id</td><td>Linjesegmentets objekt-ID</td></tr>
+<tr><td><strong>Ärende-ID</strong></td><td>area_id</td><td>Objekt-ID för ärendepolygon där avrinnningen startar</td></tr>
+<tr><td><strong>Recipient-ID</strong></td><td>trgt_fid</td><td>Objekt-ID för målet (vattendragsyta)</td></tr>
+<tr><td><strong>Avrinning till prioriterat vatten</strong></td><td>prio</td><td>Avrinning når prioriterat vattendrag (utan passage via ej prioriterat vatten) (0=Nej, 1=Ja)</td></tr>
+<tr><td><strong>Sedimenttransportindex segment (medel)</strong></td><td>st_avg_avg</td><td>Genomsnittligt sedimenttransportindex för rinnvägssegementet</td></tr>
+<tr><td><strong>Lutning segment (medel)</strong></td><td>slp_avg_avg</td><td>Genomsnittlig flödesvägslutning för rinnvägssegementet</td></tr>
+<tr><td><strong>Flödesackumulering segment (medel)</strong></td><td>fla_avg_avg</td><td>Genomsnittlig flödesackumulering för rinnvägssegementet</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="segmentindelning-avrinningsområde-och-recipient"><a class="header" href="#segmentindelning-avrinningsområde-och-recipient">Segmentindelning, avrinningsområde och recipient</a></h1>
+<p>Rinnvägar nedströms ett ärendeområde delas upp i segment om valfritt antal meter
+i den mån det är möjligt. Syftet med uppdelningen är att möjliggöra statistisk
+sammanställning av karaktärer för rinnvägarna som t.ex. lutning,
+sedimenttransport och flödesackumulering. Figur 4.2.1.A visar ett exempel på hur
+en sådan segmentindelning kan se ut. Identiteter för ärendeområdet där rinnvägen
+startar och recipienten där rinnvägen slutar redovisas i attribut för varje
+segment.</p>
+<p><img src="output/flowpaths/../../img/out-fp-segm.jpg" alt="" />
+<em>Figur 4.2.1.A. Segmenterad rinnväg från ett avverkningsområde till en recipient
+skapat utifrån Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet.
+Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad och Markhöjdmodell
+Nedladdning, grid 1+ © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sedimenttransport"><a class="header" href="#sedimenttransport">Sedimenttransport</a></h1>
+<p>Sedimenttransportindex är ett mått på transportkapaciteten för ytavrinning som
+beräknas utifrån en höjdmodell. Måttet är enhetslöst och därför i sammanhanget
+bara användbart för att avgöra om det i en given punkt finns förutsättningar för
+mer eller mindre transport i jämförelse med en annan punkt i landskapet. Det kan
+användas istället för en längd-lutning-faktor för avstånd mindre än 100 m och
+lutningar mindre än 14 grader. Beräkningar i den här modellen görs med
+rasterpixelstorlek på max ett fåtal meter och bör därför gälla. Indexet
+beräknas med följande formel:</p>
+<blockquote>
+<p>STI = (m + 1) × (A_s / 22.13)^m × sin(B / 0.0896)^n</p>
+</blockquote>
+<p>Där <em>A_s</em> är det specifika avrinningsområdet, <em>m</em> är exponent för bidragande
+avrinningsområde (vanligtvis 0.4), <em>B</em> är lutningen och <em>n</em> lutningsexponent (vanligtvis 1.4).</p>
+<p>Förenklat säger sambandet att ju högre avrinningsområde och ju större lutning
+(upp till ~16 grader) desto större blir erosionsrisken och sedimenttransporten.</p>
+<p><strong>Längs varje rinnvägssegment beräknas ett medelvärde för sedimenttransportindex.</strong></p>
+<p><img src="output/flowpaths/../../img/out-fp-segm-sti.jpg" alt="" />
+<em>Figur 4.2.2.A. Medelvärde av sedimentransportindex beräknas för varje segment
+av rinnvägen. Resultat skapat utifrån Markhöjdmodell Nedladdning, grid 1+ ©
+Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lutning"><a class="header" href="#lutning">Lutning</a></h1>
+<p>På samma sätt som medelvärde för sedimenttransportindex beräknas per
+rinnvägssegment, beräknas även medelvärde för längsgående lutning och som
+redovisas i absoluta mått i form av grader.</p>
+<p><img src="output/flowpaths/../../img/out-cont-slope.jpg" alt="" />
+<em>Figur 4.2.3.A. Lutning per pixel beräknas längs rinnvägar identifierade vid
+spårningen nedströms. Resultat skapat utifrån Markhöjdmodell Nedladdning, grid
+1+ © Lantmäteriet. Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad
+och Ortofoto färg, 0.5 m © Lantmäteriet.</em></p>
+<p><img src="output/flowpaths/../../img/out-cont-slope-2.jpg" alt="" />
+<em>Figur 4.2.3.B. Medelvärde av lutning längs varje segment beräknas och
+sammanställs på segmentets vektorrepresentation. Resultat skapat utifrån
+Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet. Bakgrundsbild: Topografisk
+webbkarta Visning, skiktindelad och Ortofoto färg, 0.5 m © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="flödesackumulering"><a class="header" href="#flödesackumulering">Flödesackumulering</a></h1>
+<p>Med flödesckumulering menas i det här sammanhanget samma sak som <em>specifikt
+avrinningområde</em>, d.v.s. det område som finns uppströms en given punkt och
+bidrar med att fånga upp ytavrinning som leds till punkten. Varje pixel i
+höjdmodellen kan vara en sådan punkt och därmed kan också flödesackumulering
+beräknas för varje pixel i höjdmodellen. Måttet redovisas i enhet hektar (ha).</p>
+<p><img src="output/flowpaths/../../img/out-fp-flowacc.jpg" alt="" />
+<em>Figur 4.2.4.A. Längsgående medelvärde av flödesackumulering inom en smal
+buffert längs rinnvägarna beräknas och visualiseras bäst i logaritmisk skala.
+Resultat skapat utifrån Markhöjdmodell Nedladdning, grid 1+ © Lantmäteriet.
+Bakgrundsbild: Topografisk webbkarta Visning, skiktindelad och Ortofoto färg,
+0.5 m © Lantmäteriet.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="implementering"><a class="header" href="#implementering">Implementering</a></h1>
+<p>Verktyget utgörs av ett Python-paket med en huvudmodul och ett par hjälpmoduler
+för körning av hela processen från början till slut. Programmet körs med
+konfiguration som anges via argument eller fil.</p>
+<ol>
+<li>Läs argument/konfigurationsfil</li>
+<li>Kör modul <code>dem.py</code> för att förbereda hydrologisk höjdmodell och andra raster för hela analysområdet</li>
+<li>Starta modul <code>area.py</code> för bearbetning av ett eller flera avverkningsområden (polygoner)</li>
+</ol>
+<p>Normalfallet är att steg 2 körs en gång för att producera ett resultat som kan
+användas av steg 3 upprepade gånger. En cache-funktion används för att
+möjliggöra återanvändning av intermediära data. Resultatet från steg 3 kan
+läggas till befintliga dataset.</p>
+<p>Detaljerade instruktioner om körning av verktyget hittas i dokumentet
+<code>README.md</code> i roten av verktygets utvecklingskatalog (GIT repository).</p>
+<div><!-- Generated by graphviz version 2.43.0 (0)
+ --><!-- Title: %3 Pages: 1 --><svg width="539pt" height="209pt"
+ viewBox="0.00 0.00 539.00 209.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 205)"><title>%3</title><polygon fill="white" stroke="transparent" points="-4,4 -4,-205 535,-205 535,4 -4,4"/><g id="clust1" class="cluster"><title>cluster_tool</title><polygon fill="none" stroke="black" points="8,-8 8,-193 523,-193 523,-8 8,-8"/><text text-anchor="middle" x="265.5" y="-177.8" font-family="Times,serif" font-size="14.00">skshc</text></g><!-- args --><g id="node1" class="node"><title>args</title><text text-anchor="middle" x="78.5" y="-30.3" font-family="Times,serif" font-size="14.00">arguments</text></g><!-- main_py --><g id="node2" class="node"><title>main_py</title><polygon fill="none" stroke="black" points="141,-106 16,-106 16,-70 141,-70 141,-106"/><text text-anchor="middle" x="78.5" y="-84.3" font-family="Times,serif" font-size="14.00">__main__.py (1)</text></g><!-- args&#45;&gt;main_py --><g id="edge1" class="edge"><title>args&#45;&gt;main_py</title><path fill="none" stroke="black" d="M78.5,-52.14C78.5,-54.62 78.5,-57.1 78.5,-59.59"/><polygon fill="black" stroke="black" points="75,-59.79 78.5,-69.79 82,-59.79 75,-59.79"/></g><!-- dem_py --><g id="node3" class="node"><title>dem_py</title><polygon fill="none" stroke="black" points="270,-80 177,-80 177,-44 270,-44 270,-80"/><text text-anchor="middle" x="223.5" y="-58.3" font-family="Times,serif" font-size="14.00">dem.py (2)</text></g><!-- main_py&#45;&gt;dem_py --><g id="edge2" class="edge"><title>main_py&#45;&gt;dem_py</title><path fill="none" stroke="black" d="M141.39,-76.75C149.87,-75.21 158.53,-73.63 166.89,-72.11"/><polygon fill="black" stroke="black" points="167.69,-75.52 176.9,-70.29 166.43,-68.64 167.69,-75.52"/></g><!-- rasters --><g id="node8" class="node"><title>rasters</title><path fill="none" stroke="black" stroke-dasharray="5,2" d="M245.5,-134C245.5,-134 201.5,-134 201.5,-134 195.5,-134 189.5,-128 189.5,-122 189.5,-122 189.5,-110 189.5,-110 189.5,-104 195.5,-98 201.5,-98 201.5,-98 245.5,-98 245.5,-98 251.5,-98 257.5,-104 257.5,-110 257.5,-110 257.5,-122 257.5,-122 257.5,-128 251.5,-134 245.5,-134"/><text text-anchor="middle" x="223.5" y="-112.3" font-family="Times,serif" font-size="14.00">rasters</text></g><!-- dem_py&#45;&gt;rasters --><g id="edge3" class="edge"><title>dem_py&#45;&gt;rasters</title><path fill="none" stroke="black" d="M223.5,-80.14C223.5,-82.62 223.5,-85.1 223.5,-87.59"/><polygon fill="black" stroke="black" points="220,-87.79 223.5,-97.79 227,-87.79 220,-87.79"/></g><!-- area_py --><g id="node4" class="node"><title>area_py</title><polygon fill="none" stroke="black" points="403,-108 309,-108 309,-72 403,-72 403,-108"/><text text-anchor="middle" x="356" y="-86.3" font-family="Times,serif" font-size="14.00">area.py (3)</text></g><!-- flowpath_py --><g id="node5" class="node"><title>flowpath_py</title><polygon fill="none" stroke="black" points="406,-162 306,-162 306,-126 406,-126 406,-162"/><text text-anchor="middle" x="356" y="-140.3" font-family="Times,serif" font-size="14.00">flowpath.py</text></g><!-- area_py&#45;&gt;flowpath_py --><g id="edge7" class="edge"><title>area_py&#45;&gt;flowpath_py</title><path fill="none" stroke="black" d="M387.45,-108.14C389.82,-110.9 391.08,-113.66 391.23,-116.41"/><polygon fill="black" stroke="black" points="387.95,-115.2 387.51,-125.79 394.45,-117.79 387.95,-115.2"/></g><!-- output --><g id="node10" class="node"><title>output</title><path fill="none" stroke="black" stroke-dasharray="5,2" d="M498.5,-54C498.5,-54 458.5,-54 458.5,-54 452.5,-54 446.5,-48 446.5,-42 446.5,-42 446.5,-30 446.5,-30 446.5,-24 452.5,-18 458.5,-18 458.5,-18 498.5,-18 498.5,-18 504.5,-18 510.5,-24 510.5,-30 510.5,-30 510.5,-42 510.5,-42 510.5,-48 504.5,-54 498.5,-54"/><text text-anchor="middle" x="478.5" y="-32.3" font-family="Times,serif" font-size="14.00">output</text></g><!-- area_py&#45;&gt;output --><g id="edge6" class="edge"><title>area_py&#45;&gt;output</title><path fill="none" stroke="black" d="M397.46,-71.87C410.21,-66.16 424.29,-59.85 437.04,-54.13"/><polygon fill="black" stroke="black" points="438.79,-57.18 446.48,-49.9 435.93,-50.79 438.79,-57.18"/></g><!-- flowpath_py&#45;&gt;area_py --><g id="edge8" class="edge"><title>flowpath_py&#45;&gt;area_py</title><path fill="none" stroke="black" d="M324.49,-125.79C322.14,-123.03 320.9,-120.27 320.76,-117.52"/><polygon fill="black" stroke="black" points="324.05,-118.72 324.55,-108.14 317.56,-116.11 324.05,-118.72"/></g><!-- utils_py --><g id="node6" class="node"><title>utils_py</title><polygon fill="none" stroke="black" points="513.5,-162 443.5,-162 443.5,-126 513.5,-126 513.5,-162"/><text text-anchor="middle" x="478.5" y="-140.3" font-family="Times,serif" font-size="14.00">utils.py</text></g><!-- tools_py --><g id="node7" class="node"><title>tools_py</title><polygon fill="none" stroke="black" points="515,-108 442,-108 442,-72 515,-72 515,-108"/><text text-anchor="middle" x="478.5" y="-86.3" font-family="Times,serif" font-size="14.00">tools.py</text></g><!-- rasters&#45;&gt;area_py --><g id="edge4" class="edge"><title>rasters&#45;&gt;area_py</title><path fill="none" stroke="black" d="M257.77,-109.37C270.29,-106.88 284.89,-103.97 298.92,-101.17"/><polygon fill="black" stroke="black" points="299.87,-104.55 308.99,-99.17 298.5,-97.69 299.87,-104.55"/></g><!-- areas --><g id="node9" class="node"><title>areas</title><path fill="none" stroke="black" stroke-dasharray="5,2" d="M372,-54C372,-54 340,-54 340,-54 334,-54 328,-48 328,-42 328,-42 328,-28 328,-28 328,-22 334,-16 340,-16 340,-16 372,-16 372,-16 378,-16 384,-22 384,-28 384,-28 384,-42 384,-42 384,-48 378,-54 372,-54"/><text text-anchor="middle" x="356" y="-38.8" font-family="Times,serif" font-size="14.00">areas</text><text text-anchor="middle" x="356" y="-23.8" font-family="Times,serif" font-size="14.00">1..n</text></g><!-- areas&#45;&gt;area_py --><g id="edge5" class="edge"><title>areas&#45;&gt;area_py</title><path fill="none" stroke="black" d="M356,-54.34C356,-56.8 356,-59.27 356,-61.74"/><polygon fill="black" stroke="black" points="352.5,-61.89 356,-71.89 359.5,-61.89 352.5,-61.89"/></g></g></svg></div>
+<h2 id="bibliotek"><a class="header" href="#bibliotek">Bibliotek</a></h2>
+<h3 id="whiteboxtools"><a class="header" href="#whiteboxtools">WhiteboxTools</a></h3>
+<ul>
+<li><a href="https://www.whiteboxgeo.com/geospatial-software/">Vad är WhiteboxTools?</a>
+<ul>
+<li>Öppen källkod - Rust</li>
+<li>Python interface (wrapper till binär)</li>
+<li>Hydrologiska verktyg</li>
+<li>Begränsat stöd vektordataformat - ESRI Shape</li>
+</ul>
+</li>
+<li><a href="https://www.whiteboxgeo.com/manual/wbt_book/preface.html">Manual</a></li>
+</ul>
+<h3 id="Övriga-geospatiala"><a class="header" href="#Övriga-geospatiala">Övriga geospatiala</a></h3>
+<ul>
+<li><a href="https://geopandas.org">Geopandas</a> (vektor)</li>
+<li><a href="https://rasterio.readthedocs.io">Rasterio</a> (raster)</li>
+<li><a href="https://pythonhosted.org/rasterstats/">rasterstats</a> (raster)</li>
+</ul>
+<p>Samtliga tre bygger i grunden på <a href="https://gdal.org/">GDAL</a> och av den anledningen har Conda använts som Python-pakethanterare för att underlätta installation av GDAL.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </body>
+</html>
