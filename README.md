@@ -238,3 +238,12 @@ be reduced to at least 1/3 by increasing the number of threads.
 | 2       | 1.8x |
 | 4       | 2.4x |
 | 8       | 3.0x |
+
+## Friskrivningsklausul/Disclaimer
+
+Författaren har hela ansvaret för innehållet. Innehållet ska inte tolkas som Europeiska unionens eller EU-kommissionens officiella ståndpunkt.
+The author has full responsibility for the content. The content should not be interpreted as the official view of the European Commission or the European Union.
+
+## Licens
+
+Se [license.txt](license.txt)
