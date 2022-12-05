@@ -1,4 +1,5 @@
 # sks-hydrocheck
+![Logga.png](./assets/logo.png)
 
 This tool is developed by the Swedish Forest Agency and is used for calculating
 hydrological properties related to forestry areas and water bodies that are
