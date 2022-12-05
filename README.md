@@ -7,7 +7,7 @@ affected by forestry activities in such areas.
 ## Documentation
 
 This repository includes the "book" [GIS-verktyg för att bedöma påverkan på
-vattenmiljöer vid skogsbruksåtgärder](./doc/) (in Swedish) which describes the
+vattenmiljöer vid skogsbruksåtgärder](https://skogsstyrelsen.github.io/sks-hydrocheck/) (in Swedish) which describes the
 background and methodology. This documentation is written in Markdown and DOT
 language (Graphviz) and can be built into an online book using the utility
 [mdBook](https://github.com/rust-lang/mdBook). Rendering the DOT graphs also
